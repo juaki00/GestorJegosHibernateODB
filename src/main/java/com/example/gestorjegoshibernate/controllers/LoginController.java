@@ -1,5 +1,6 @@
 package com.example.gestorjegoshibernate.controllers;
 
+import com.example.gestorjegoshibernate.domain.HibernateUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,9 +52,11 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Configuration cfg = new Configuration();
-        cfg.configure();  //para probar hibernate solo estas dos linea
-
-        SessionFactory sf = cfg.buildSessionFactory(); //para probar la conexion
+//        Configuration cfg = new Configuration();
+//        cfg.configure();  //para probar hibernate solo estas dos linea
+//
+//        SessionFactory sf = cfg.buildSessionFactory(); //para probar la conexion
+//
+//        HibernateUtils.getSessionFactory(); //segunda comprobacion
     }
 }
