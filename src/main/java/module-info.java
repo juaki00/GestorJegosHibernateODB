@@ -9,6 +9,7 @@ module com.example.gestorjegoshibernate {
     requires java.sql; //para fechas
 
     opens com.example.gestorjegoshibernate.domain.usuario;
+    opens com.example.gestorjegoshibernate.domain.juego;
     opens com.example.gestorjegoshibernate to javafx.fxml;
     exports com.example.gestorjegoshibernate;
     exports com.example.gestorjegoshibernate.controllers;

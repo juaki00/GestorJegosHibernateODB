@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="261.0" prefWidth="288.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorjegoshibernate.controllers.MainViewController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="0.0" prefWidth="790.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salir" text="salir" />
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <Label fx:id="info" text="Label" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
