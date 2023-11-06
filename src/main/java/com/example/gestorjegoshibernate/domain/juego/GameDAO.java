@@ -17,15 +17,15 @@ public class GameDAO implements DAO<Game> {
         return null;
     }
 
-    public ArrayList<Game> getAllFromUser(User u) {
-        ArrayList<Game> results = new ArrayList<Game>(0);
-        try(Session s = HibernateUtils.getSessionFactory().openSession()){
-            Query<Game> q = s.createQuery("from Game where usuarioId=:userId",Game.class);
-            q.setParameter("userId",u.getId());
-            results = (ArrayList<Game>) q.getResultList();
-        }
-        return results;
-    }
+//    public ArrayList<Game> getAllFromUser(User u) {
+//        ArrayList<Game> results = new ArrayList<Game>(0);
+//        try(Session s = HibernateUtils.getSessionFactory().openSession()){
+//            Query<Game> q = s.createQuery("from Game where usuarioId=:userId",Game.class);
+//            q.setParameter("userId",u.getId());
+//            results = (ArrayList<Game>) q.getResultList();
+//        }
+//        return results;
+//    }
 
     @Override
     public Game get(Long id) {

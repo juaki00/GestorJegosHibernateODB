@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,8 +20,8 @@ public class User implements Serializable {
     @Column(name = "contraseña")
     private String password;
 
-//    @OneToMany(mappedBy = "user")
-//    private ArrayList<Game> games = new ArrayList<Game>(0);
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER) //Para rellenar todos los atributos relacionados con otras tablas
+    private List<Game> games = new ArrayList<Game>(0);
 
     public void setId(Long id) {
         this.id = id;

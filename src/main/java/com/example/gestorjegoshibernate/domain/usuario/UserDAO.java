@@ -43,7 +43,8 @@ public class UserDAO implements DAO<User> {
 
             try {
                 result = q.getSingleResult();
-            }catch (Exception ignored){
+            }catch (Exception e){
+                throw new RuntimeException(e);
             }
         }
         return result;

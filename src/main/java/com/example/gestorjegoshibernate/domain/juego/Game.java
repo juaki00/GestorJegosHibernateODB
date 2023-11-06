@@ -33,12 +33,29 @@ public class Game implements Serializable {
   private String gameStatus;
   @Column(name = "estado_caja")
   private String boxStatus;
-  @Column(name = "usuario_id")
-  private Long usuarioId;
+//  @Column(name = "usuario_id")
+//  private Long usuarioId;
 
-//  @ManyToOne
-//  @JoinColumn(name = "usuario_id")
-//  private User user;
+  @ManyToOne
+  @JoinColumn(name = "usuario_id")
+  private User user;
 
 
+  @Override
+  public String toString() {
+    return "Game{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", year=" + year +
+            ", players=" + players +
+            ", category='" + category + '\'' +
+            ", platform='" + platform + '\'' +
+            ", studio='" + studio + '\'' +
+            ", enterprise='" + enterprise + '\'' +
+            ", format='" + format + '\'' +
+            ", gameStatus='" + gameStatus + '\'' +
+            ", boxStatus='" + boxStatus + '\'' +
+            ", user=" + user.getUsername() +
+            '}';
+  }
 }
