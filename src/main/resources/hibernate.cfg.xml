@@ -7,12 +7,14 @@
     <session-factory>
         <!-- properties -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ad</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/productos</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.username">root</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
-        <mapping class="com.example.gestorjegoshibernate.domain.usuario.User"/>
-        <mapping class="com.example.gestorjegoshibernate.domain.juego.Game"/>
+        <mapping class="com.example.gestorDePedidosHibernate.domain.usuario.Usuario"/>
+        <mapping class="com.example.gestorDePedidosHibernate.domain.pedido.Pedido"/>
+        <mapping class="com.example.gestorDePedidosHibernate.domain.item.Item"/>
+        <mapping class="com.example.gestorDePedidosHibernate.domain.producto.Producto"/>
     </session-factory>
 </hibernate-configuration>

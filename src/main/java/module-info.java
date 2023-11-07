@@ -8,10 +8,12 @@ module com.example.gestorjegoshibernate {
     requires java.naming;
     requires java.sql; //para fechas
 
-    opens com.example.gestorjegoshibernate.domain.usuario;
-    opens com.example.gestorjegoshibernate.domain.juego;
-    opens com.example.gestorjegoshibernate to javafx.fxml;
-    exports com.example.gestorjegoshibernate;
-    exports com.example.gestorjegoshibernate.controllers;
-    opens com.example.gestorjegoshibernate.controllers to javafx.fxml;
+    opens com.example.gestorDePedidosHibernate.domain.usuario;
+    opens com.example.gestorDePedidosHibernate.domain.pedido;
+    opens com.example.gestorDePedidosHibernate.domain.item;
+    opens com.example.gestorDePedidosHibernate.domain.producto;
+    opens com.example.gestorDePedidosHibernate to javafx.fxml;
+    exports com.example.gestorDePedidosHibernate;
+    exports com.example.gestorDePedidosHibernate.controllers;
+    opens com.example.gestorDePedidosHibernate.controllers to javafx.fxml;
 }

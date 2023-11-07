@@ -1,4 +1,4 @@
-package com.example.gestorjegoshibernate.domain;
+package com.example.gestorDePedidosHibernate.domain;
 
 import lombok.extern.java.Log;
 import org.hibernate.SessionFactory;

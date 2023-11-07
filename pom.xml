@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>GestorJegosHibernate</artifactId>
+    <artifactId>GestorDePedidosHibernate</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>GestorJegosHibernate</name>
 
@@ -79,7 +79,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.gestorjegoshibernate/com.example.gestorjegoshibernate.App
+                                com.example.gestorjegoshibernate/com.example.gestorDePedidosHibernate.App
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

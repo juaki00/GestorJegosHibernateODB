@@ -1,0 +1,98 @@
+            /*-------------Botones-------------*/
+
+  .root{
+      -fx-font-family: "MingLiU-ExtB";
+      -fx-font-size: 19px;
+  }
+            /*Sombreado 3D*/
+Button,TableView, .titulo{
+    -fx-effect: dropshadow(three-pass-box, rgb(19, 39, 87), 10, 0, 2, 2);
+}
+Button {
+    -fx-background-color: #998580;
+    -fx-border-color: #998580;
+    -fx-border-width: 2;
+    -fx-text-fill: #000000;
+    -fx-font-family: "MingLiU-ExtB";
+    -fx-font-size: 20px;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
+}
+
+Button:hover{
+    -fx-cursor: HAND;
+}
+Button.btnLogout {
+    -fx-background-color: #cb6f6f;
+}
+Button.btnAtras, Button.btnEntrar {
+    -fx-background-color: #ccb8b4;
+}
+Button.btnEntrar:hover, Button.btnAtras:hover  {
+    -fx-background-color: #88726b;
+}
+Button.btnLogout:hover {
+    -fx-background-color: #8f4f4f;
+}
+            /*-------------Tablas-------------*/
+.root .table-view{
+    -fx-control-inner-background: #eee8e7;
+    -fx-border-width: 0px;
+}
+
+TableView.table-view{
+    -fx-background-color: #eee8e7;
+}
+
+#tablaPedidos{
+    -fx-border-style: none;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
+}
+.table-row-cell .table-cell {
+    -fx-border-width: 0px;
+    -fx-font: 19px "MingLiU-ExtB";
+}
+.table-cell {
+    -fx-padding: 10px;
+    -fx-text-fill: black;
+    -fx-alignment: center center;
+}
+.table-row-cell:even{
+    -fx-background-color: rgb(224, 220, 218);
+}
+.table-row-cell:odd{
+    -fx-background-color: rgb(238, 234, 234);
+}
+.table-row-cell:hover {
+    -fx-background-color: #cacede;
+}
+#tablaPedidos:hover {
+    -fx-cursor: HAND;
+}
+.table-row-cell:empty, .table-cell:empty:hover {
+    -fx-background-color: #eee8e7;
+    -fx-border-width: 0px;
+    -fx-border-color: #eee8e7;
+    -fx-cursor: DEFAULT;
+    -fx-effect: none;
+}
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+.titulo{
+    -fx-background-color: #adb3c9;
+    -fx-border-width: 1;
+    -fx-border-color: #2a3a67;
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-radius: 10 10 0 0;
+}
+.fondo{
+    -fx-background-color: rgb(213, 220, 229);
+    -fx-border-width: 0px;
+}
+
+.tf{
+
+    -fx-effect: dropshadow(three-pass-box, rgb(0, 0, 0), 5, 0, 1, 1);
+}
