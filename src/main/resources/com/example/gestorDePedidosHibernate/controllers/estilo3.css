@@ -64,7 +64,7 @@ TableView.table-view{
 .table-row-cell:odd{
     -fx-background-color: rgb(238, 234, 234);
 }
-.table-row-cell:hover {
+.table-row-cell:hover, .table-row-cell:selected {
     -fx-background-color: #cacede;
 }
 #tablaPedidos:hover {

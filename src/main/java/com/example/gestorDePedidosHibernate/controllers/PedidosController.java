@@ -6,6 +6,7 @@ import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,16 +36,19 @@ public class PedidosController implements Initializable {
     private Button btnLogout;
     @javafx.fxml.FXML
     private BorderPane ventana;
+    @javafx.fxml.FXML
+    private Button btnEliminar;
+    @javafx.fxml.FXML
+    private Button btnDetalles;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        
             // Listener
-        tablaPedidos.getSelectionModel().selectedItemProperty().addListener((observableValue, vOld, vNew) -> {
-            Sesion.setPedidoPulsado(vNew);
-            App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
-        });
+//        tablaPedidos.getSelectionModel().selectedItemProperty().addListener((observableValue, vOld, vNew) -> {
+//            Sesion.setPedidoPulsado(vNew);
+//            App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
+//        });
 
         Usuario usuario = Sesion.getUsuarioActual();
         PedidoDAO daoPedido = new PedidoDAO();
@@ -81,5 +85,13 @@ public class PedidosController implements Initializable {
     }
 
 
+    @javafx.fxml.FXML
+    public void eliminar(ActionEvent actionEvent) {
+    }
 
+    @javafx.fxml.FXML
+    public void detalles(ActionEvent actionEvent) {
+        Sesion.setPedidoPulsado(tablaPedidos.getSelectionModel().selectedItemProperty().get());
+        App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
+    }
 }
