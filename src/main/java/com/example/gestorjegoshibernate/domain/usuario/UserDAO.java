@@ -6,11 +6,17 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO implements DAO<User> {
     @Override
     public ArrayList<User> getAll() {
-        return null;
+        List<User> salida = new ArrayList<User>();
+        try(Session s = HibernateUtils.getSessionFactory().openSession()){
+            Query<User> q = s.createQuery("from User",User.class);
+            salida = q.getResultList();
+        }
+        return (ArrayList<User>) salida;
     }
 
     @Override

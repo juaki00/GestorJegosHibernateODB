@@ -46,7 +46,7 @@ public class MainViewController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
         info.setText("Bienvenido "+(Session.getCurrentUser().getUsername()));
         titulo.setText("Juegos de "+Session.getCurrentUser().getUsername());
-        lTotal.setText("Numero de juegos: "+Session.getCurrentUser().getGames().size());
+        lTotal.setText("Numero de juegos: "+Session.getCurrentUser().getGamesQuantity());
 
         cAnio.setCellValueFactory((fila)->{
             return new SimpleStringProperty(fila.getValue().getYear().toString());
