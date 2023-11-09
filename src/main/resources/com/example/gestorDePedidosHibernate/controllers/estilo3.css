@@ -1,13 +1,15 @@
-            /*-------------Botones-------------*/
+            /*-------------Tipo  y tamaño de letra-------------*/
 
   .root{
       -fx-font-family: "MingLiU-ExtB";
       -fx-font-size: 19px;
   }
-            /*Sombreado 3D*/
-Button,TableView, .titulo{
+            /*-------------Sombreado 3D-------------*/
+Button, .tabla, .titulo{
     -fx-effect: dropshadow(three-pass-box, rgb(19, 39, 87), 10, 0, 2, 2);
 }
+
+            /*-------------Botones-------------*/
 Button {
     -fx-background-color: #998580;
     -fx-border-color: #998580;
@@ -40,15 +42,13 @@ Button.btnLogout:hover {
     -fx-border-width: 0px;
 }
 
-TableView.table-view{
+.tabla{
     -fx-background-color: #eee8e7;
-}
-
-#tablaPedidos{
     -fx-border-style: none;
     -fx-border-color: transparent;
     -fx-border-width: 0px;
 }
+
 .table-row-cell .table-cell {
     -fx-border-width: 0px;
     -fx-font: 19px "MingLiU-ExtB";
@@ -93,6 +93,5 @@ TableView.table-view{
 }
 
 .tf{
-
     -fx-effect: dropshadow(three-pass-box, rgb(0, 0, 0), 5, 0, 1, 1);
 }

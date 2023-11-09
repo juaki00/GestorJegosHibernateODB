@@ -3,7 +3,6 @@ package com.example.gestorDePedidosHibernate.controllers;
 import com.example.gestorDePedidosHibernate.App;
 import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
-import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,17 +10,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DetallesPedidoController implements Initializable
+public class EditarPedidoController implements Initializable
 {
 
     @FXML
@@ -38,15 +34,40 @@ public class DetallesPedidoController implements Initializable
     private Button btnLogout;
     @FXML
     private Button btnAtras;
+    @FXML
+    private VBox menuLateral;
+    @FXML
+    private TextField textNombre;
+    @FXML
+    private Spinner<Integer> spinnerCantidad;
+    @FXML
+    private Slider sliderPrecio;
+    @FXML
+    private TextField labelPrecio;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+        //listener del slider
+        sliderPrecio.valueProperty().addListener((observableValue, number, t1) -> {
+            labelPrecio.setText(t1.intValue()+"");
+        });
+        //listener de la tabla
+        tablaDetallesPedido.getSelectionModel().selectedItemProperty().addListener((observableValue, producto, t1) -> {
+            menuLateral.setDisable(false);
+
+            textNombre.setText(t1.getProducto().getNombre());
+            sliderPrecio.setValue(t1.getProducto().getPrecio());
+            labelPrecio.setText(Math.round(sliderPrecio.getValue())+"");
+            spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,1000,t1.getCantidad(),1));
+        });
 
        PedidoDAO dao = new PedidoDAO();
         List<Item> items = dao.detallesDeUnPedido(Sesion.getPedidoPulsado());
 
              //Cambiar titulo
-        labelTitulo.setText("Pedido número " + Sesion.getPedidoPulsado().getId_pedido());
+        labelTitulo.setText("Editar pedido " + Sesion.getPedidoPulsado().getId_pedido());
 
             //Rellenar la tabla
         cNombre. setCellValueFactory( (fila) -> {

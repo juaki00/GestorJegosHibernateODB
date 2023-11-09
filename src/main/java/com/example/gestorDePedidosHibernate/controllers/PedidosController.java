@@ -40,6 +40,8 @@ public class PedidosController implements Initializable {
     private Button btnEliminar;
     @javafx.fxml.FXML
     private Button btnDetalles;
+    @javafx.fxml.FXML
+    private Button btnEditar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,14 +86,25 @@ public class PedidosController implements Initializable {
         App.loadFXML("login-view.fxml", "Iniciar Sesión");
     }
 
-
     @javafx.fxml.FXML
     public void eliminar(ActionEvent actionEvent) {
     }
 
     @javafx.fxml.FXML
     public void detalles(ActionEvent actionEvent) {
-        Sesion.setPedidoPulsado(tablaPedidos.getSelectionModel().selectedItemProperty().get());
-        App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
+        Pedido pedidoPulsado = tablaPedidos.getSelectionModel().selectedItemProperty().get();
+        if(pedidoPulsado!=null) {
+            Sesion.setPedidoPulsado(pedidoPulsado);
+            App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void editar(ActionEvent actionEvent) {
+        Pedido pedidoPulsado = tablaPedidos.getSelectionModel().selectedItemProperty().get();
+        if(pedidoPulsado!=null) {
+            Sesion.setPedidoPulsado(pedidoPulsado);
+            App.loadFXML("editarPedido-view.fxml", "Editar pedido");
+        }
     }
 }

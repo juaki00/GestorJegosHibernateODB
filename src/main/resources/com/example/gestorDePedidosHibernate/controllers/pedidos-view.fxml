@@ -6,33 +6,58 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="ventana" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0" styleClass="fondo" stylesheets="@estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.PedidosController">
+<BorderPane fx:id="ventana" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="714.0" styleClass="fondo" stylesheets="@estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.PedidosController">
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="721.0">
          <children>
-            <TilePane>
-               <children>
-                    <Label fx:id="labelNombre" styleClass="titulo" text="Pedidos de Joaquin">
+            <BorderPane prefHeight="66.0" prefWidth="618.0">
+               <left>
+                    <Label fx:id="labelNombre" styleClass="titulo" text="Pedidos de Joaquin" BorderPane.alignment="CENTER">
                         <padding>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </padding>
                         <font>
                             <Font name="MingLiU-ExtB" size="24.0" />
                         </font>
-                     <TilePane.margin>
-                        <Insets left="10.0" />
-                     </TilePane.margin>
+                     <BorderPane.margin>
+                        <Insets bottom="-10.0" />
+                     </BorderPane.margin>
                     </Label>
-               </children>
+               </left>
+               <right>
+                    <Button fx:id="btnLogout" alignment="CENTER" mnemonicParsing="false" onAction="#logoutButton" styleClass="btnLogout" text="Logout" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <padding>
+                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                        </padding>
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                     </BorderPane.margin>
+                    </Button>
+               </right>
                <padding>
-                  <Insets left="30.0" />
+                  <Insets left="20.0" right="20.0" />
                </padding>
-            </TilePane>
-             <TableView id="tablaPedidos" fx:id="tablaPedidos" prefHeight="335.0" prefWidth="708.0" snapToPixel="false">
+               <center>
+                  <Button mnemonicParsing="false" styleClass="btnAtras" text="+ Nuevo pedido" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                     </BorderPane.margin>
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </center>
+            </BorderPane>
+             <TableView id="tablaPedidos" fx:id="tablaPedidos" prefHeight="250.0" prefWidth="709.0" snapToPixel="false" styleClass="tabla">
                  <columns>
                      <TableColumn fx:id="cId" editable="false" minWidth="25.0" prefWidth="75.0" text="ID" />
                      <TableColumn fx:id="cFecha" minWidth="25.0" prefWidth="75.0" text="Fecha" />
@@ -44,26 +69,9 @@
                  </columnResizePolicy>
              </TableView>
             <BorderPane prefHeight="78.0" prefWidth="650.0">
-               <right>
-                    <Button fx:id="btnLogout" alignment="CENTER" mnemonicParsing="false" onAction="#logoutButton" styleClass="btnLogout" text="Logout" textAlignment="CENTER" BorderPane.alignment="CENTER">
-                        <padding>
-                            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                        </padding>
-                        <font>
-                            <Font size="18.0" />
-                        </font>
-                    </Button>
-               </right>
                <padding>
                   <Insets left="50.0" right="50.0" top="30.0" />
                </padding>
-               <left>
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" styleClass="btnEntrar" text="Eliminar" BorderPane.alignment="CENTER">
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                  </Button>
-               </left>
                <center>
                   <Button fx:id="btnDetalles" mnemonicParsing="false" onAction="#detalles" styleClass="btnEntrar" text="Detalles" BorderPane.alignment="CENTER">
                      <padding>
@@ -71,6 +79,20 @@
                      </padding>
                   </Button>
                </center>
+               <right>
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" styleClass="btnEntrar" text="Eliminar" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </Button>
+               </right>
+               <left>
+                  <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" styleClass="btnAtras" text="Editar" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </Button>
+               </left>
             </BorderPane>
          </children>
          <padding>

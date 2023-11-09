@@ -58,45 +58,22 @@ public class PedidoDAO implements DAO<Pedido> {
         return salida;
     }
 
-    public List<Producto> detallesDeUnPedido(Pedido pedidoPulsado) {
-        List<Producto> result = new ArrayList<>();
+    public List<Item> detallesDeUnPedido(Pedido pedidoPulsado) {
+        List<Item> result;
         try(Session s = HibernateUtils.getSessionFactory().openSession()){
             Query<Pedido> q = s.createQuery("from Pedido where id_pedido =: id",Pedido.class);
             q.setParameter("id",pedidoPulsado.getId_pedido());
-            for (Item item: q.getSingleResult().getItems()){
-
-                result.add(item.getProducto());
-            }
+            result = new ArrayList<>(q.getSingleResult().getItems());
         }
         return  result;
-//        List<Pedido> salida = new ArrayList<Pedido>();
-//        try(Session s = HibernateUtils.getSessionFactory().openSession()){
-//            Query<Usuario> q = s.createQuery("from Usuario where id_usuario =: id",Usuario.class);
-//            q.setParameter("id",usuario.getId_usuario());
-//            salida = q.getSingleResult().getPedidos();
-//        }
-//        return salida;
     }
 
-//    public Double detallesDeUnPedido(Pedido pedido) {
-//        Double suma = null;
-//        try(Session session = HibernateUtils.getSessionFactory().openSession()){
-//            Query<Producto> q = session.createQuery(
-//                    "SELECT new com.example.gestorDePedidosHibernate.domain.producto.Producto(producto.id_producto,producto.nombre,producto.precio,items.cantidad)" +
-//                            "FROM Producto producto " +
-//                            "JOIN producto.items items " +
-//                            "JOIN items.pedido pedido " +
-//                            "WHERE pedido.usuario_id = :id");
-////                    "FROM Pedido pedido " +
-////                    "JOIN pedido.items items " +
-////                    "JOIN items.producto producto " +
-////                    "WHERE pedido.usuario_id = :id");
-//            q.setParameter("id",pedido.getId_pedido());
-//            try {
-//                suma =  q.getResultList();
-//            }catch (Exception ignored){
-//            }
-//        }
-//        return suma;
-//    }
+    public String calculaTotalDeUnPedido(Pedido pedido){
+        Double sumaTotal = 0.0;
+        List<Item> items= new ArrayList<Item>();
+        for (Item i: pedido.getItems()){
+            sumaTotal = sumaTotal + (i.getCantidad()*i.getProducto().getPrecio());
+        }
+        return sumaTotal.toString();
+    }
 }

@@ -47,7 +47,9 @@ public class LoginController implements Initializable {
             }
 
         } catch (RuntimeException e){
-            throw new RuntimeException(e);
+            tfUsuario.setText("");
+            tfPass.setText("");
+            info.setText("Error de conexion con la base de datos");
         }
     }
 
