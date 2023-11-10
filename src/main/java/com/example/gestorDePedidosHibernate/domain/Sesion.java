@@ -1,5 +1,6 @@
 package com.example.gestorDePedidosHibernate.domain;
 
+import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
 import lombok.Data;
@@ -18,6 +19,9 @@ public class Sesion {
     @Getter
     private static Pedido pedidoPulsado;
 
+    @Setter
+    @Getter
+    private static Item itemPulsado;
 
 
 

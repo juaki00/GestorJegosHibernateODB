@@ -58,7 +58,7 @@ public class UsuarioDAO implements DAO<Usuario> {
             try {
                 result = q.getSingleResult();
             }catch (Exception e){
-                throw new RuntimeException(e);
+
             }
         }
         return result;
