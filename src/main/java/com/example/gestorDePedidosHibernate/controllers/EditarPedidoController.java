@@ -7,6 +7,7 @@ import com.example.gestorDePedidosHibernate.domain.item.ItemDAO;
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
+import com.example.gestorDePedidosHibernate.domain.producto.ProductoDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import org.hibernate.Session;
 
 import java.net.URL;
 import java.util.List;
@@ -23,6 +25,7 @@ public class EditarPedidoController implements Initializable
 {
     private static PedidoDAO pedidoDAO;
     private static ItemDAO itemDAO;
+    private static ProductoDAO productoDAO;
 
     @FXML
     private TableView<Item> tablaDetallesPedido;
@@ -41,33 +44,19 @@ public class EditarPedidoController implements Initializable
     @FXML
     private VBox menuLateral;
     @FXML
-    private TextField textNombre;
-    @FXML
     private Spinner<Integer> spinnerCantidad;
     @FXML
-    private Slider sliderPrecio;
-    @FXML
-    private TextField labelPrecio;
-    @FXML
     private Button btnEditar;
+    @FXML
+    private Button btnAniadir;
+    @FXML
+    private ComboBox<String> comboNombre;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pedidoDAO = new PedidoDAO();
         itemDAO = new ItemDAO();
-        //listener del sliderPrecio
-        sliderPrecio.valueProperty().addListener((observableValue, number, t1) -> {
-            labelPrecio.setText(t1.doubleValue()+"");
-        });
-        //Listener del labelPrecio
-        labelPrecio.textProperty().addListener((observableValue, eventHandler, t1) -> {
-            try {
-                sliderPrecio.setValue(Double.parseDouble(labelPrecio.getText()));
-            }
-            catch (Exception e){
-
-            }
-        });
+        productoDAO = new ProductoDAO();
 
         //listener de la tabla
         tablaDetallesPedido.getSelectionModel().selectedItemProperty().addListener((observableValue, producto, t1) -> {
@@ -75,11 +64,12 @@ public class EditarPedidoController implements Initializable
             menuLateral.setDisable(false);
 
             if(t1!=null) Sesion.setItemPulsado(t1);
-            textNombre.setText(Sesion.getItemPulsado().getProducto().getNombre());
-            sliderPrecio.setValue(Sesion.getItemPulsado().getProducto().getPrecio());
-            labelPrecio.setText(Math.round(sliderPrecio.getValue())+"");
-            spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,1000,Sesion.getItemPulsado().getCantidad(),1));
+            comboNombre.setValue(Sesion.getItemPulsado().getProducto().getNombre());
+            spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000,Sesion.getItemPulsado().getCantidad(),1));
         });
+
+            //Rellenar comboBox
+       comboNombre.getItems().addAll(pedidoDAO.todosLosProductos());
 
              //Cambiar titulo
         labelTitulo.setText("Editar pedido " + Sesion.getPedidoPulsado().getId_pedido());
@@ -110,25 +100,61 @@ public class EditarPedidoController implements Initializable
     @FXML
     public void atras() {
         App.loadFXML("pedidos-view.fxml", "Pedidos de " + Sesion.getUsuarioActual().getNombreusuario());
+        Sesion.setItemPulsado(null);
     }
 
     @FXML
     public void logout() {
         Sesion.setUsuarioActual(null);
         Sesion.setPedidoPulsado(null);
+        Sesion.setItemPulsado(null);
         App.loadFXML("login-view.fxml", "Iniciar Sesión");
     }
 
     @FXML
     public void editar() {
-        Item itemModificado = Sesion.getItemPulsado();
-        Producto productoModificado = Sesion.getItemPulsado().getProducto();
-        productoModificado.setPrecio(Double.valueOf(labelPrecio.getText()));
-        productoModificado.setNombre(textNombre.getText());
-        itemModificado.setCantidad(spinnerCantidad.getValue());
+        try{
+            if(pedidoDAO.estaProductoEnPedido(comboNombre.getValue(),Sesion.getPedidoPulsado())){
+                Item item = itemDAO.itemEnPedidoPorNombre(Sesion.getPedidoPulsado(),comboNombre.getValue());
+                modificaItem(spinnerCantidad.getValue()+item.getCantidad());
+            }
+            else{
+                if(Sesion.isEsUnNuevoProducto()) {
+                    Producto producto = productoDAO.productoPorNombre(comboNombre.getValue());
+                    Item itemNuevo = new Item();
+                    pedidoDAO.insertarItemAPedido(Sesion.getPedidoPulsado(),spinnerCantidad.getValue(),producto);
+                }
+                else{
+                    modificaItem(spinnerCantidad.getValue());
+                }
+            }
+            this.rellenarTabla();
+            this.menuLateral.setDisable(true);
+            this.tablaDetallesPedido.setDisable(false);
+
+        }
+        catch(NumberFormatException e){
+
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void modificaItem(Integer cantidad) {
+        Item itemModificado = itemDAO.itemEnPedidoPorNombre(Sesion.getPedidoPulsado(),
+                comboNombre.getValue());
+        Producto productoModificado = productoDAO.productoPorNombre(comboNombre.getValue());
+        itemModificado.setCantidad(cantidad);
         itemModificado.setProducto(productoModificado);
         itemDAO.update(itemModificado);
-        this.rellenarTabla();
-        System.out.println(Sesion.getItemPulsado().getCantidad());
+    }
+
+    @FXML
+    public void aniadir() {
+        Sesion.setEsUnNuevoProducto(true);
+        menuLateral.setDisable(false);
+        tablaDetallesPedido.setDisable(true);
+        btnEditar.setText("Añadir");
+        comboNombre.setValue(comboNombre.getItems().getFirst());
+        spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000,1,1));
     }
 }

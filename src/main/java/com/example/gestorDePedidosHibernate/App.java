@@ -1,5 +1,10 @@
 package com.example.gestorDePedidosHibernate;
 
+import com.example.gestorDePedidosHibernate.domain.item.ItemDAO;
+import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
+import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
+import com.example.gestorDePedidosHibernate.domain.producto.Producto;
+import com.example.gestorDePedidosHibernate.domain.producto.ProductoDAO;
 import com.example.gestorDePedidosHibernate.domain.usuario.UsuarioDAO;
 import jakarta.persistence.GeneratedValue;
 import javafx.application.Application;
@@ -41,5 +46,11 @@ public class App extends Application {
     }
     public static void main(String[] args) {
         launch();
+//        Pedido p = new Pedido();
+//        p.setId_pedido(1L);
+//
+//        PedidoDAO pedidoDAO = new PedidoDAO();
+//        ProductoDAO productoDAO = new ProductoDAO();
+//        System.out.println(pedidoDAO.estaProductoEnPedido("Telefono",p));
     }
 }

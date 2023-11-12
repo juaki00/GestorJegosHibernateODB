@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="435.0" minWidth="677.0" styleClass="fondo" stylesheets="@estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.DetallesPedidoController">
+<BorderPane minHeight="435.0" minWidth="677.0" styleClass="fondo" stylesheets="@css/estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.DetallesPedidoController">
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0" styleClass="fondo">
          <children>

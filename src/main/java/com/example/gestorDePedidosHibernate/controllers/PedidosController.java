@@ -46,11 +46,7 @@ public class PedidosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-            // Listener
-//        tablaPedidos.getSelectionModel().selectedItemProperty().addListener((observableValue, vOld, vNew) -> {
-//            Sesion.setPedidoPulsado(vNew);
-//            App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
-//        });
+        Sesion.setEsUnNuevoProducto(false);
 
         Usuario usuario = Sesion.getUsuarioActual();
         PedidoDAO daoPedido = new PedidoDAO();

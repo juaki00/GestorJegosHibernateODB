@@ -2,7 +2,9 @@ package com.example.gestorDePedidosHibernate.domain.item;
 
 import com.example.gestorDePedidosHibernate.domain.DAO;
 import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
+import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
+import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -32,17 +34,24 @@ public class ItemDAO implements DAO<Item> {
             Transaction t = s.beginTransaction();
             Item nuevoItem = s.get(Item.class, data.getId_item());
             Producto nuevoProducto = s.get(Producto.class, data.getProducto().getId_producto());
-            nuevoProducto.setNombre(data.getProducto().getNombre());
-            nuevoProducto.setPrecio(data.getProducto().getPrecio());
             nuevoItem.setCantidad(data.getCantidad());
             nuevoItem.setProducto(nuevoProducto);
-            nuevoItem.setPedido(data.getPedido());
             t.commit();
         }
     }
 
     @Override
     public void delete(Item data) {
+    }
 
+    public Item itemEnPedidoPorNombre(Pedido p, String nombreProducto){
+        Item result = null;
+        try(Session s = HibernateUtils.getSessionFactory().openSession()) {
+            Query<Item> q = s.createQuery("from Item i where i.producto.nombre =: n and i.pedido.id_pedido=: idPedido",Item.class);
+            q.setParameter("n",nombreProducto);
+            q.setParameter("idPedido",p.getId_pedido());
+            result = q.getSingleResultOrNull();
+        }
+        return result;
     }
 }

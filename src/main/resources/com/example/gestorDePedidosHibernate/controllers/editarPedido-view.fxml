@@ -2,18 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="435.0" minWidth="677.0" styleClass="fondo" stylesheets="@estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.EditarPedidoController">
+<BorderPane minHeight="435.0" minWidth="677.0" styleClass="fondo" stylesheets="@css/estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.EditarPedidoController">
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0" styleClass="fondo">
          <children>
@@ -47,6 +46,16 @@
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding>
+               <center>
+                  <Button fx:id="btnAniadir" mnemonicParsing="false" onAction="#aniadir" styleClass="btnAtras" text="+ Añadir producto" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                     </BorderPane.margin>
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+                     </padding>
+                  </Button>
+               </center>
             </BorderPane>
             <TableView fx:id="tablaDetallesPedido" prefHeight="418.0" prefWidth="678.0" style="-fx-border-color: transparent;" styleClass="tabla">
               <columns>
@@ -75,6 +84,9 @@
                      </font>
                   </Button>
                </left>
+               <right>
+                  <Button mnemonicParsing="false" styleClass="btnAtras" text="Eliminar producto" BorderPane.alignment="CENTER" />
+               </right>
             </BorderPane>
          </children>
          <padding>
@@ -92,7 +104,7 @@
                         <Font name="MingLiU-ExtB" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textNombre" />
+                  <ComboBox fx:id="comboNombre" prefWidth="150.0" />
                </children>
             </FlowPane>
             <FlowPane vgap="15.0">
@@ -105,18 +117,12 @@
                   <Spinner fx:id="spinnerCantidad" prefHeight="14.0" prefWidth="158.0" />
                </children>
             </FlowPane>
-            <FlowPane prefHeight="32.0" prefWidth="188.0" vgap="10.0">
-               <children>
-                  <Label text="Precio: ">
-                     <font>
-                        <Font name="MingLiU-ExtB" size="24.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="labelPrecio" prefHeight="35.0" prefWidth="88.0" text="100" />
-                  <Slider fx:id="sliderPrecio" blockIncrement="0.01" majorTickUnit="0.01" max="5000.0" minorTickCount="0" prefHeight="33.0" prefWidth="185.0" snapToTicks="true" value="1000.0" />
-               </children>
-            </FlowPane>
             <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" styleClass="btnAtras" text="Editar">
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+            </Button>
+            <Button mnemonicParsing="false" text="Cancelar">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>

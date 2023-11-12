@@ -23,6 +23,11 @@ public class Sesion {
     @Getter
     private static Item itemPulsado;
 
+    @Setter
+    @Getter
+    private static boolean esUnNuevoProducto;
+
+
 
 
 

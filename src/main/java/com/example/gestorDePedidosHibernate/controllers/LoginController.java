@@ -70,6 +70,7 @@ public class LoginController implements Initializable {
             tfUsuario.setText("");
             tfPass.setText("");
             info.setText("Error de conexion con la base de datos");
+            System.out.println(e.getMessage());
         }
     }
 
