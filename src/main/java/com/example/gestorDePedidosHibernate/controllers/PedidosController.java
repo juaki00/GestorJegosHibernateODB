@@ -1,12 +1,15 @@
 package com.example.gestorDePedidosHibernate.controllers;
 import com.example.gestorDePedidosHibernate.App;
 import com.example.gestorDePedidosHibernate.domain.Sesion;
+import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 
 import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +22,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class PedidosController implements Initializable {
+
+    PedidoDAO pedidoDAO;
+
     @javafx.fxml.FXML
     private Label labelNombre;
     @javafx.fxml.FXML
@@ -46,15 +52,25 @@ public class PedidosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        pedidoDAO = new PedidoDAO();
+
         Sesion.setEsUnNuevoProducto(false);
+        rellenarTabla( );
 
+        tablaPedidos.getSelectionModel().selectedItemProperty().addListener( ( observableValue , pedido , t1 ) -> {
+            Sesion.setPedidoPulsado( t1 );
+        });
+
+    }
+
+    private void rellenarTabla( ) {
         Usuario usuario = Sesion.getUsuarioActual();
-        PedidoDAO daoPedido = new PedidoDAO();
-        List<Pedido> pedidosDeUser = daoPedido.pedidosDeUnUsuario(usuario) ;
+        pedidoDAO = new PedidoDAO();
+        List<Pedido> pedidosDeUser = pedidoDAO.pedidosDeUnUsuario(usuario) ;
 
-            //Cambiar Titulo
+        //Cambiar Titulo
         labelNombre.setText("Pedidos de "+ usuario.getNombreusuario()+" ("+ usuario.getEmail()+")");
-            //Rellenar la tabla
+        //Rellenar la tabla
         cId.setCellValueFactory( (fila) -> {
             Long id = fila.getValue().getId_pedido();
             return new SimpleStringProperty(id.toString());
@@ -71,9 +87,10 @@ public class PedidosController implements Initializable {
             String total = fila.getValue().getTotal();
             return new SimpleStringProperty(total);
         });
-        tablaPedidos.getItems().addAll(pedidosDeUser);
-
-        }
+        ObservableList<Pedido> observableList = FXCollections.observableArrayList( );
+        observableList.addAll( pedidosDeUser );
+        tablaPedidos.setItems( observableList );
+    }
 
     @javafx.fxml.FXML
     public void logoutButton() {
@@ -83,24 +100,20 @@ public class PedidosController implements Initializable {
     }
 
     @javafx.fxml.FXML
-    public void eliminar(ActionEvent actionEvent) {
-    }
-
-    @javafx.fxml.FXML
-    public void detalles(ActionEvent actionEvent) {
-        Pedido pedidoPulsado = tablaPedidos.getSelectionModel().selectedItemProperty().get();
-        if(pedidoPulsado!=null) {
-            Sesion.setPedidoPulsado(pedidoPulsado);
+    public void detalles() {
             App.loadFXML("detallesPedido-view.fxml", "Detalles del pedido");
-        }
     }
 
     @javafx.fxml.FXML
-    public void editar(ActionEvent actionEvent) {
-        Pedido pedidoPulsado = tablaPedidos.getSelectionModel().selectedItemProperty().get();
-        if(pedidoPulsado!=null) {
-            Sesion.setPedidoPulsado(pedidoPulsado);
+    public void editar() {
             App.loadFXML("editarPedido-view.fxml", "Editar pedido");
+    }
+
+    @FXML
+    public void eliminar( ) {
+        if (Sesion.getPedidoPulsado( ) != null){
+            pedidoDAO.delete( Sesion.getPedidoPulsado() );
+            this.rellenarTabla( );
         }
     }
 }
