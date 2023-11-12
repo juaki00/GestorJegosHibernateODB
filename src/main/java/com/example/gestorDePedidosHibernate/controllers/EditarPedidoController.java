@@ -114,20 +114,21 @@ public class EditarPedidoController implements Initializable
     @FXML
     public void editar() {
         try{
-            if(pedidoDAO.estaProductoEnPedido(comboNombre.getValue(),Sesion.getPedidoPulsado())){
-                Item item = itemDAO.itemEnPedidoPorNombre(Sesion.getPedidoPulsado(),comboNombre.getValue());
-                modificaItem(spinnerCantidad.getValue()+item.getCantidad());
-            }
-            else{
-                if(Sesion.isEsUnNuevoProducto()) {
+            if(Sesion.isEsUnNuevoProducto()) {
+                if(pedidoDAO.estaProductoEnPedido(comboNombre.getValue(),Sesion.getPedidoPulsado())){
+                    Item item = itemDAO.itemEnPedidoPorNombre(Sesion.getPedidoPulsado(),comboNombre.getValue());
+                    modificaItem(spinnerCantidad.getValue()+item.getCantidad());
+                }
+                else {
                     Producto producto = productoDAO.productoPorNombre(comboNombre.getValue());
                     Item itemNuevo = new Item();
-                    pedidoDAO.insertarItemAPedido(Sesion.getPedidoPulsado(),spinnerCantidad.getValue(),producto);
-                }
-                else{
-                    modificaItem(spinnerCantidad.getValue());
+                    pedidoDAO.insertarItemAPedido(Sesion.getPedidoPulsado(), spinnerCantidad.getValue(), producto);
                 }
             }
+            else{
+                modificaItem(spinnerCantidad.getValue());
+            }
+
             this.rellenarTabla();
             this.menuLateral.setDisable(true);
             this.tablaDetallesPedido.setDisable(false);
