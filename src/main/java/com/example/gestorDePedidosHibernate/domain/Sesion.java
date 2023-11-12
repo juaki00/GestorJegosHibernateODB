@@ -27,7 +27,16 @@ public class Sesion {
     @Getter
     private static boolean esUnNuevoProducto;
 
+    @Setter
+    @Getter
+    private static boolean esUnNuevoPedido;
 
+
+    public static void logout(){
+        Sesion.setPedidoPulsado( null );
+        Sesion.setUsuarioActual( null );
+        Sesion.setItemPulsado( null );
+    }
 
 
 

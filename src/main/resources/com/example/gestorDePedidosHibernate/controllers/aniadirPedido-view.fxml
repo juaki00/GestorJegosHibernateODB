@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="435.0" minWidth="677.0" styleClass="fondo" stylesheets="@css/estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.EditarPedidoController">
+<BorderPane minHeight="435.0" minWidth="677.0" styleClass="fondo" stylesheets="@css/estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.AniadirPedidoController">
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0" styleClass="fondo">
          <children>
             <BorderPane>
                <left>
-                  <Label fx:id="labelTitulo" styleClass="titulo" text="Pedido numero XXX" BorderPane.alignment="CENTER">
+                  <Label fx:id="labelTitulo" styleClass="titulo" text="Nuevo Pedido" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="MingLiU-ExtB" size="24.0" />
                      </font>
@@ -47,7 +47,7 @@
                   <Insets left="20.0" right="20.0" />
                </padding>
                <center>
-                  <Button fx:id="btnAniadir" mnemonicParsing="false" onAction="#aniadir" styleClass="btnEntrar" text="+ Añadir producto" BorderPane.alignment="CENTER">
+                  <Button fx:id="btnAniadir" mnemonicParsing="false" onAction="#aniadir" styleClass="btnAtras" text="+ Añadir producto" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="10.0" />
                      </BorderPane.margin>
@@ -75,7 +75,7 @@
                   <Insets left="100.0" right="50.0" top="30.0" />
                </padding>
                <left>
-                  <Button fx:id="btnAtras" contentDisplay="TOP" mnemonicParsing="false" onAction="#atras" styleClass="btnAtras" text="Atrás" BorderPane.alignment="CENTER">
+                  <Button fx:id="btnAtras" contentDisplay="TOP" mnemonicParsing="false" onAction="#atras" styleClass="btnEntrar" text="Atrás" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
@@ -85,7 +85,7 @@
                   </Button>
                </left>
                <right>
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" styleClass="btnLogout" text="Eliminar producto" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" styleClass="btnAtras" text="Eliminar producto" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
          </children>
@@ -117,7 +117,7 @@
                   <Spinner fx:id="spinnerCantidad" prefHeight="14.0" prefWidth="158.0" />
                </children>
             </FlowPane>
-            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" styleClass="btnAtras" text="Editar">
+            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" styleClass="btnAtras" text="Añadir">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>

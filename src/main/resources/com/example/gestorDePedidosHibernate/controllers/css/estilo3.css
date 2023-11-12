@@ -27,7 +27,10 @@ Button:hover{
 Button.btnLogout {
     -fx-background-color: #cb6f6f;
 }
-Button.btnAtras, Button.btnEntrar {
+Button.btnEntrar{
+    -fx-background-color: #becca9;
+}
+Button.btnAtras {
     -fx-background-color: #ccb8b4;
 }
 Button.btnEntrar:hover, Button.btnAtras:hover  {

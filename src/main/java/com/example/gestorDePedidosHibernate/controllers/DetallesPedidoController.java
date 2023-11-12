@@ -73,8 +73,7 @@ public class DetallesPedidoController implements Initializable
 
     @FXML
     public void logout() {
-        Sesion.setUsuarioActual(null);
-        Sesion.setPedidoPulsado(null);
+        Sesion.logout();
         App.loadFXML("login-view.fxml", "Iniciar Sesión");
     }
 }

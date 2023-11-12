@@ -52,12 +52,20 @@ public class EditarPedidoController implements Initializable {
     private ComboBox<String> comboNombre;
     @FXML
     private Button btnEliminar;
+    @FXML
+    private Button btnCancelar;
 
     @Override
     public void initialize( URL url , ResourceBundle resourceBundle ) {
         pedidoDAO = new PedidoDAO( );
         itemDAO = new ItemDAO( );
         productoDAO = new ProductoDAO( );
+
+        //Si es un pedidoNuevo///////////////////////////////////////////
+//        if (Sesion.isEsUnNuevoPedido( )) {
+//            Pedido nuevoPedido = new Pedido(  );
+//            nuevoPedido.setUsuario( Sesion.getUsuarioActual() );
+//        }
 
         //listener de la tabla
         tablaDetallesPedido.getSelectionModel( ).selectedItemProperty( ).addListener( ( observableValue , producto , t1 ) -> {
@@ -75,7 +83,7 @@ public class EditarPedidoController implements Initializable {
         comboNombre.getItems( ).addAll( pedidoDAO.todosLosProductos( ) );
 
         //Cambiar titulo
-        labelTitulo.setText( "Editar pedido " + Sesion.getPedidoPulsado( ).getId_pedido( ) );
+        if (Sesion.getPedidoPulsado()!=null) labelTitulo.setText( "Editar pedido " + Sesion.getPedidoPulsado( ).getId_pedido( )  );
 
         //Rellenar la tabla
         rellenarTabla( );
@@ -108,9 +116,7 @@ public class EditarPedidoController implements Initializable {
 
     @FXML
     public void logout( ) {
-        Sesion.setUsuarioActual( null );
-        Sesion.setPedidoPulsado( null );
-        Sesion.setItemPulsado( null );
+        Sesion.logout();
         App.loadFXML( "login-view.fxml" , "Iniciar Sesión" );
     }
 
@@ -162,8 +168,15 @@ public class EditarPedidoController implements Initializable {
 
     @FXML
     public void eliminar( ) {
-        if (Sesion.getItemPulsado( ) != null) itemDAO.delete( Sesion.getItemPulsado( ) );
-        this.rellenarTabla( );
+        if (Sesion.getItemPulsado( ) != null) {
+            itemDAO.delete( Sesion.getItemPulsado( ) );
+            this.rellenarTabla( );
+            this.menuLateral.setDisable( true );
+        }
+    }
+
+    @FXML
+    public void cancelar( ) {
         this.menuLateral.setDisable( true );
     }
 }

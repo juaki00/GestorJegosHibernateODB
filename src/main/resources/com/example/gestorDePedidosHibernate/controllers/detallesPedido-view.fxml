@@ -62,7 +62,7 @@
                   <Insets left="100.0" right="50.0" top="30.0" />
                </padding>
                <left>
-                  <Button fx:id="btnAtras" contentDisplay="TOP" mnemonicParsing="false" onAction="#atras" styleClass="btnEntrar" text="Atrás" BorderPane.alignment="CENTER">
+                  <Button fx:id="btnAtras" contentDisplay="TOP" mnemonicParsing="false" onAction="#atras" styleClass="btnAtras" text="Atrás" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
