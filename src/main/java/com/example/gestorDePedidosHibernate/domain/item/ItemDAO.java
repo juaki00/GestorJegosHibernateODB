@@ -42,6 +42,14 @@ public class ItemDAO implements DAO<Item> {
 
     @Override
     public void delete(Item data) {
+        HibernateUtils.getSessionFactory().inTransaction(session -> {
+            Item i = session.get(Item.class, data.getId_item());
+            session.remove(i);
+        });
+    }
+
+    public Item itemEnPedidoPorProducto(Pedido p, Producto producto){
+        return itemEnPedidoPorNombre(p,producto.getNombre());
     }
 
     public Item itemEnPedidoPorNombre(Pedido p, String nombreProducto){

@@ -46,11 +46,16 @@ public class App extends Application {
     }
     public static void main(String[] args) {
         launch();
-//        Pedido p = new Pedido();
-//        p.setId_pedido(1L);
-//
 //        PedidoDAO pedidoDAO = new PedidoDAO();
+//        ItemDAO itemDAO = new ItemDAO();
 //        ProductoDAO productoDAO = new ProductoDAO();
+//
+//        Pedido pedido = new Pedido();
+//        pedido.setId_pedido(1L);
+//
+//        Producto producto = productoDAO.productoPorNombre("Telefono");
+//        itemDAO.delete(itemDAO.itemEnPedidoPorProducto(pedido,producto));
+//        System.out.println(itemDAO.itemEnPedidoPorProducto(pedido,producto));
 //        System.out.println(pedidoDAO.estaProductoEnPedido("Telefono",p));
     }
 }

@@ -21,8 +21,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditarPedidoController implements Initializable
-{
+public class EditarPedidoController implements Initializable {
     private static PedidoDAO pedidoDAO;
     private static ItemDAO itemDAO;
     private static ProductoDAO productoDAO;
@@ -30,11 +29,11 @@ public class EditarPedidoController implements Initializable
     @FXML
     private TableView<Item> tablaDetallesPedido;
     @FXML
-    private TableColumn<Item,String>  cNombre;
+    private TableColumn<Item, String> cNombre;
     @FXML
-    private TableColumn<Item,String>  cPrecio;
+    private TableColumn<Item, String> cPrecio;
     @FXML
-    private TableColumn<Item,String>  cCantidad;
+    private TableColumn<Item, String> cCantidad;
     @FXML
     private Label labelTitulo;
     @FXML
@@ -51,111 +50,120 @@ public class EditarPedidoController implements Initializable
     private Button btnAniadir;
     @FXML
     private ComboBox<String> comboNombre;
+    @FXML
+    private Button btnEliminar;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        pedidoDAO = new PedidoDAO();
-        itemDAO = new ItemDAO();
-        productoDAO = new ProductoDAO();
+    public void initialize( URL url , ResourceBundle resourceBundle ) {
+        pedidoDAO = new PedidoDAO( );
+        itemDAO = new ItemDAO( );
+        productoDAO = new ProductoDAO( );
 
         //listener de la tabla
-        tablaDetallesPedido.getSelectionModel().selectedItemProperty().addListener((observableValue, producto, t1) -> {
+        tablaDetallesPedido.getSelectionModel( ).selectedItemProperty( ).addListener( ( observableValue , producto , t1 ) -> {
 
-            menuLateral.setDisable(false);
+            menuLateral.setDisable( false );
 
-            if(t1!=null) Sesion.setItemPulsado(t1);
-            comboNombre.setValue(Sesion.getItemPulsado().getProducto().getNombre());
-            spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000,Sesion.getItemPulsado().getCantidad(),1));
-        });
+            if (t1 != null) Sesion.setItemPulsado( t1 );
+            comboNombre.setValue( Sesion.getItemPulsado( ).getProducto( ).getNombre( ) );
+            spinnerCantidad.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory( 1 , 1000 , Sesion.getItemPulsado( ).getCantidad( ) , 1 ) );
+            btnEditar.setText( "Editar" );
+            comboNombre.setDisable( true );
+        } );
 
-            //Rellenar comboBox
-       comboNombre.getItems().addAll(pedidoDAO.todosLosProductos());
+        //Rellenar comboBox
+        comboNombre.getItems( ).addAll( pedidoDAO.todosLosProductos( ) );
 
-             //Cambiar titulo
-        labelTitulo.setText("Editar pedido " + Sesion.getPedidoPulsado().getId_pedido());
+        //Cambiar titulo
+        labelTitulo.setText( "Editar pedido " + Sesion.getPedidoPulsado( ).getId_pedido( ) );
 
-            //Rellenar la tabla
-        rellenarTabla();
+        //Rellenar la tabla
+        rellenarTabla( );
     }
 
-    private void rellenarTabla() {
-        List<Item> items = pedidoDAO.detallesDeUnPedido(Sesion.getPedidoPulsado());
-        cNombre. setCellValueFactory( (fila) -> {
-            String nombre = fila.getValue().getProducto().getNombre();
-            return new SimpleStringProperty(nombre);
-        });
-        cCantidad. setCellValueFactory( (fila) -> {
-            int cantidad = fila.getValue().getCantidad();
-            return new SimpleStringProperty(Integer.toString(cantidad));
-        });
-        cPrecio. setCellValueFactory( (fila) -> {
-            double precio = fila.getValue().getProducto().getPrecio();
-            return new SimpleStringProperty(Double.toString(precio));
-        });
-        ObservableList<Item> observableList = FXCollections.observableArrayList();
-        observableList.addAll(items);
-        tablaDetallesPedido.setItems(observableList);
-    }
-
-    @FXML
-    public void atras() {
-        App.loadFXML("pedidos-view.fxml", "Pedidos de " + Sesion.getUsuarioActual().getNombreusuario());
-        Sesion.setItemPulsado(null);
+    private void rellenarTabla( ) {
+        List<Item> items = pedidoDAO.detallesDeUnPedido( Sesion.getPedidoPulsado( ) );
+        cNombre.setCellValueFactory( ( fila ) -> {
+            String nombre = fila.getValue( ).getProducto( ).getNombre( );
+            return new SimpleStringProperty( nombre );
+        } );
+        cCantidad.setCellValueFactory( ( fila ) -> {
+            int cantidad = fila.getValue( ).getCantidad( );
+            return new SimpleStringProperty( Integer.toString( cantidad ) );
+        } );
+        cPrecio.setCellValueFactory( ( fila ) -> {
+            double precio = fila.getValue( ).getProducto( ).getPrecio( );
+            return new SimpleStringProperty( Double.toString( precio ) );
+        } );
+        ObservableList<Item> observableList = FXCollections.observableArrayList( );
+        observableList.addAll( items );
+        tablaDetallesPedido.setItems( observableList );
     }
 
     @FXML
-    public void logout() {
-        Sesion.setUsuarioActual(null);
-        Sesion.setPedidoPulsado(null);
-        Sesion.setItemPulsado(null);
-        App.loadFXML("login-view.fxml", "Iniciar Sesión");
+    public void atras( ) {
+        App.loadFXML( "pedidos-view.fxml" , "Pedidos de " + Sesion.getUsuarioActual( ).getNombreusuario( ) );
+        Sesion.setItemPulsado( null );
     }
 
     @FXML
-    public void editar() {
-        try{
-            if(Sesion.isEsUnNuevoProducto()) {
-                if(pedidoDAO.estaProductoEnPedido(comboNombre.getValue(),Sesion.getPedidoPulsado())){
-                    Item item = itemDAO.itemEnPedidoPorNombre(Sesion.getPedidoPulsado(),comboNombre.getValue());
-                    modificaItem(spinnerCantidad.getValue()+item.getCantidad());
+    public void logout( ) {
+        Sesion.setUsuarioActual( null );
+        Sesion.setPedidoPulsado( null );
+        Sesion.setItemPulsado( null );
+        App.loadFXML( "login-view.fxml" , "Iniciar Sesión" );
+    }
+
+    @FXML
+    public void editar( ) {
+        try {
+            if (Sesion.isEsUnNuevoProducto( )) {
+                if (pedidoDAO.estaProductoEnPedido( comboNombre.getValue( ) , Sesion.getPedidoPulsado( ) )) {
+                    Item item = itemDAO.itemEnPedidoPorNombre( Sesion.getPedidoPulsado( ) , comboNombre.getValue( ) );
+                    modificaItem( spinnerCantidad.getValue( ) + item.getCantidad( ) );
+                } else {
+                    Producto producto = productoDAO.productoPorNombre( comboNombre.getValue( ) );
+                    pedidoDAO.insertarItemAPedido( Sesion.getPedidoPulsado( ) , spinnerCantidad.getValue( ) , producto );
                 }
-                else {
-                    Producto producto = productoDAO.productoPorNombre(comboNombre.getValue());
-                    Item itemNuevo = new Item();
-                    pedidoDAO.insertarItemAPedido(Sesion.getPedidoPulsado(), spinnerCantidad.getValue(), producto);
-                }
-            }
-            else{
-                modificaItem(spinnerCantidad.getValue());
+                Sesion.setEsUnNuevoProducto( false );
+            } else {
+                modificaItem( spinnerCantidad.getValue( ) );
             }
 
-            this.rellenarTabla();
-            this.menuLateral.setDisable(true);
-            this.tablaDetallesPedido.setDisable(false);
+            this.rellenarTabla( );
+            this.menuLateral.setDisable( true );
+            this.tablaDetallesPedido.setDisable( false );
 
-        }
-        catch(NumberFormatException e){
+        } catch ( NumberFormatException e ) {
 
-            System.out.println(e.getMessage());
+            System.out.println( e.getMessage( ) );
         }
     }
 
-    private void modificaItem(Integer cantidad) {
-        Item itemModificado = itemDAO.itemEnPedidoPorNombre(Sesion.getPedidoPulsado(),
-                comboNombre.getValue());
-        Producto productoModificado = productoDAO.productoPorNombre(comboNombre.getValue());
-        itemModificado.setCantidad(cantidad);
-        itemModificado.setProducto(productoModificado);
-        itemDAO.update(itemModificado);
+    private void modificaItem( Integer cantidad ) {
+        Item itemModificado = itemDAO.itemEnPedidoPorNombre( Sesion.getPedidoPulsado( ) ,
+                                                             comboNombre.getValue( ) );
+        Producto productoModificado = productoDAO.productoPorNombre( comboNombre.getValue( ) );
+        itemModificado.setCantidad( cantidad );
+        itemModificado.setProducto( productoModificado );
+        itemDAO.update( itemModificado );
     }
 
     @FXML
-    public void aniadir() {
-        Sesion.setEsUnNuevoProducto(true);
-        menuLateral.setDisable(false);
-        tablaDetallesPedido.setDisable(true);
-        btnEditar.setText("Añadir");
-        comboNombre.setValue(comboNombre.getItems().getFirst());
-        spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000,1,1));
+    public void aniadir( ) {
+        Sesion.setEsUnNuevoProducto( true );
+        comboNombre.setDisable( false );
+        menuLateral.setDisable( false );
+        tablaDetallesPedido.setDisable( true );
+        btnEditar.setText( "Añadir" );
+        comboNombre.setValue( comboNombre.getItems( ).getFirst( ) );
+        spinnerCantidad.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory( 1 , 1000 , 1 , 1 ) );
+    }
+
+    @FXML
+    public void eliminar( ) {
+        if (Sesion.getItemPulsado( ) != null) itemDAO.delete( Sesion.getItemPulsado( ) );
+        this.rellenarTabla( );
+        this.menuLateral.setDisable( true );
     }
 }

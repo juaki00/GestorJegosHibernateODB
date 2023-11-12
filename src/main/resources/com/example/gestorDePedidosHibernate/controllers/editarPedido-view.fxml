@@ -85,7 +85,7 @@
                   </Button>
                </left>
                <right>
-                  <Button mnemonicParsing="false" styleClass="btnAtras" text="Eliminar producto" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" styleClass="btnAtras" text="Eliminar producto" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
          </children>
