@@ -194,6 +194,7 @@ public class EditarPedidoController implements Initializable {
     @FXML
     public void cancelar( ) {
         this.menuLateral.setDisable( true );
+        this.tablaDetallesPedido.setDisable( false );
     }
 
     @FXML

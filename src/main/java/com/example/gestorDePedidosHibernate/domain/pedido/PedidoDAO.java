@@ -74,7 +74,7 @@ public class PedidoDAO implements DAO<Pedido> {
             for (Item item : pedido.getItems( )) {
                 total = total + item.getCantidad( ) * item.getProducto( ).getPrecio( );
             }
-            DecimalFormat formato = new DecimalFormat( "#.00" );
+            DecimalFormat formato = new DecimalFormat( "#0.00" );
             pedido.setTotal( formato.format( total ) );
         }
         return salida;

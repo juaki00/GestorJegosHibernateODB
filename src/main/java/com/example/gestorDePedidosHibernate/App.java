@@ -26,8 +26,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         myStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("controllers/login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Login!");
+        stage.setMinHeight( 600 );
+        stage.setMinWidth( 1000 );
         stage.setScene(scene);
         stage.show();
     }
@@ -48,20 +50,5 @@ public class App extends Application {
     }
     public static void main(String[] args) {
         launch();
-//        PedidoDAO pedidoDAO = new PedidoDAO();
-//        ItemDAO itemDAO = new ItemDAO();
-//        ProductoDAO productoDAO = new ProductoDAO();
-//
-//        Pedido pedido = new Pedido();
-//        pedido.setId_pedido(1L);
-//
-//        Producto producto = productoDAO.productoPorNombre("Telefono");
-//        itemDAO.delete(itemDAO.itemEnPedidoPorProducto(pedido,producto));
-//        System.out.println(itemDAO.itemEnPedidoPorProducto(pedido,producto));
-//        System.out.println(pedidoDAO.estaProductoEnPedido("Telefono",p));
-
-//        LocalDate today = LocalDate.now();
-//        today.format(  )
-//        System.out.println( today );
     }
 }

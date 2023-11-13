@@ -72,15 +72,15 @@ public class PedidosController implements Initializable {
         List<Pedido> pedidosDeUser = pedidoDAO.pedidosDeUnUsuario( usuario );
 
         //Cambiar Titulo
-        labelNombre.setText( "Pedidos de " + usuario.getNombreusuario( ) + " (" + usuario.getEmail( ) + ")" );
+        labelNombre.setText( "Pedidos de " + usuario.getNombreusuario( ) );
         //Rellenar la tabla
         cId.setCellValueFactory( ( fila ) -> {
             Long id = fila.getValue( ).getId_pedido( );
             return new SimpleStringProperty( id.toString( ) );
         } );
         cFecha.setCellValueFactory( ( fila ) -> {
-            String cantidad = fila.getValue( ).getFecha( );
-            return new SimpleStringProperty( cantidad );
+            String fecha = fila.getValue( ).getFecha( );
+            return new SimpleStringProperty( fecha );
         } );
         cUsuario.setCellValueFactory( ( fila ) -> {
             String nombre = Sesion.getUsuarioActual( ).getNombreusuario( );

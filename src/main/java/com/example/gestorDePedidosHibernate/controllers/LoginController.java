@@ -48,6 +48,7 @@ public class LoginController implements Initializable {
                 btnEntrar.fire();
             }
         });
+
     }
 
 

@@ -1,7 +1,6 @@
 package com.example.gestorDePedidosHibernate.domain.pedido;
 
 import com.example.gestorDePedidosHibernate.domain.item.Item;
-import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,6 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pedido;
-//    private String codigo;
     private String fecha;
     private String total;
 
@@ -37,7 +35,6 @@ public class Pedido implements Serializable {
     public String toString() {
         return "Pedido{" +
                 "id_pedido=" + id_pedido +
-//                ", codigo='" + codigo + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", usuario=" + usuario.getNombreusuario() +
                 ", total='" + total + '\'' +
