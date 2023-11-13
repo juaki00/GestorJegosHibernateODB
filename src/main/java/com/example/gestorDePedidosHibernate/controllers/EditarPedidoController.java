@@ -1,6 +1,7 @@
 package com.example.gestorDePedidosHibernate.controllers;
 
 import com.example.gestorDePedidosHibernate.App;
+import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
 import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.item.ItemDAO;
@@ -16,8 +17,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -61,32 +64,45 @@ public class EditarPedidoController implements Initializable {
         itemDAO = new ItemDAO( );
         productoDAO = new ProductoDAO( );
 
-        //Si es un pedidoNuevo///////////////////////////////////////////
-//        if (Sesion.isEsUnNuevoPedido( )) {
-//            Pedido nuevoPedido = new Pedido(  );
-//            nuevoPedido.setUsuario( Sesion.getUsuarioActual() );
-//        }
+//        Si es un pedidoNuevo
+        if (Sesion.isEsUnNuevoPedido( )) {
+            Pedido nuevoPedido = new Pedido(  );
+            nuevoPedido.setUsuario( Sesion.getUsuarioActual() );
+            nuevoPedido.setFecha( LocalDate.now().toString() );
+            pedidoDAO.save( nuevoPedido );
+            Sesion.setPedidoPulsado( nuevoPedido );
+            //Cambiar titulo
+            labelTitulo.setText( "Añadir pedido " );
+
+
+        }
+//        Si no es un nuevo pedido
+        else{
+            //Rellenar la tabla
+            rellenarTabla( );
+            //Cambiar titulo
+            if (Sesion.getPedidoPulsado()!=null) labelTitulo.setText( "Editar pedido " + Sesion.getPedidoPulsado( ).getId_pedido( )  );
+
+        }
 
         //listener de la tabla
+        aniadirListenerTabla( );
+
+        //Rellenar comboBox
+        comboNombre.getItems( ).addAll( pedidoDAO.todosLosProductos( ) );
+
+    }
+
+    private void aniadirListenerTabla( ) {
         tablaDetallesPedido.getSelectionModel( ).selectedItemProperty( ).addListener( ( observableValue , producto , t1 ) -> {
 
             menuLateral.setDisable( false );
-
             if (t1 != null) Sesion.setItemPulsado( t1 );
             comboNombre.setValue( Sesion.getItemPulsado( ).getProducto( ).getNombre( ) );
             spinnerCantidad.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory( 1 , 1000 , Sesion.getItemPulsado( ).getCantidad( ) , 1 ) );
             btnEditar.setText( "Editar" );
             comboNombre.setDisable( true );
         } );
-
-        //Rellenar comboBox
-        comboNombre.getItems( ).addAll( pedidoDAO.todosLosProductos( ) );
-
-        //Cambiar titulo
-        if (Sesion.getPedidoPulsado()!=null) labelTitulo.setText( "Editar pedido " + Sesion.getPedidoPulsado( ).getId_pedido( )  );
-
-        //Rellenar la tabla
-        rellenarTabla( );
     }
 
     private void rellenarTabla( ) {
@@ -178,5 +194,15 @@ public class EditarPedidoController implements Initializable {
     @FXML
     public void cancelar( ) {
         this.menuLateral.setDisable( true );
+    }
+
+    @FXML
+    public void guardar(  ) {
+        if(Sesion.isEsUnNuevoPedido()){
+//            Pedido nuevoPedido = new Pedido(  );
+//            nuevoPedido.setUsuario( Sesion.getUsuarioActual() );
+//            nuevoPedido.setTotal(  );
+//            pedidoDAO.save(  )
+        }
     }
 }

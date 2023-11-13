@@ -15,6 +15,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class App extends Application {
     @Getter
@@ -57,5 +59,9 @@ public class App extends Application {
 //        itemDAO.delete(itemDAO.itemEnPedidoPorProducto(pedido,producto));
 //        System.out.println(itemDAO.itemEnPedidoPorProducto(pedido,producto));
 //        System.out.println(pedidoDAO.estaProductoEnPedido("Telefono",p));
+
+//        LocalDate today = LocalDate.now();
+//        today.format(  )
+//        System.out.println( today );
     }
 }

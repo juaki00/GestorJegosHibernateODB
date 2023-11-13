@@ -29,7 +29,17 @@ public class PedidoDAO implements DAO<Pedido> {
 
     @Override
     public Pedido save( Pedido data ) {
-        return null;
+
+        Pedido salida = null;
+        try ( org.hibernate.Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
+            Transaction t = s.beginTransaction( );
+            s.persist( data );
+            t.commit( );
+            salida = data;
+        } catch ( Exception e ) {
+            log.severe( "Error al guardar. " + data.toString( ) );
+        }
+        return salida;
     }
 
     @Override

@@ -108,7 +108,10 @@ public class PedidosController implements Initializable {
 
     @javafx.fxml.FXML
     public void editar( ) {
-        if(Sesion.getPedidoPulsado() != null) App.loadFXML( "editarPedido-view.fxml" , "Editar pedido" );
+        if(Sesion.getPedidoPulsado() != null){
+            Sesion.setEsUnNuevoPedido( false );
+            App.loadFXML( "editarPedido-view.fxml" , "Editar pedido" );
+        }
     }
 
     @FXML
@@ -121,6 +124,7 @@ public class PedidosController implements Initializable {
 
     @FXML
     public void aniadir( ) {
-        App.loadFXML( "aniadirPedido-view.fxml" , "Añadir pedido" );
+        Sesion.setEsUnNuevoPedido( true );
+        App.loadFXML( "editarPedido-view.fxml" , "Añadir pedido" );
     }
 }
