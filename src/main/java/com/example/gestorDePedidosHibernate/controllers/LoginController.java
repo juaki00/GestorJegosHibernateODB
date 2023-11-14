@@ -18,7 +18,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-
+/**
+ * Controlador de la ventana de login
+ */
 @Data
 public class LoginController implements Initializable {
 
@@ -51,7 +53,9 @@ public class LoginController implements Initializable {
 
     }
 
-
+    /**
+     * Función botón Entrar
+     */
     @FXML
     private void btnEntrar() {
 

@@ -24,6 +24,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la vista Editar un pedido
+ */
 public class EditarPedidoController implements Initializable {
     private static PedidoDAO pedidoDAO;
     private static ItemDAO itemDAO;
@@ -93,6 +96,9 @@ public class EditarPedidoController implements Initializable {
 
     }
 
+    /**
+     * Definición de un listener para la tabla
+     */
     private void aniadirListenerTabla( ) {
         tablaDetallesPedido.getSelectionModel( ).selectedItemProperty( ).addListener( ( observableValue , producto , t1 ) -> {
 
@@ -105,6 +111,9 @@ public class EditarPedidoController implements Initializable {
         } );
     }
 
+    /**
+     * Llenar la tabla de valores de la base de datos
+     */
     private void rellenarTabla( ) {
         List<Item> items = pedidoDAO.detallesDeUnPedido( Sesion.getPedidoPulsado( ) );
         cNombre.setCellValueFactory( ( fila ) -> {
@@ -124,18 +133,27 @@ public class EditarPedidoController implements Initializable {
         tablaDetallesPedido.setItems( observableList );
     }
 
+    /**
+     * Función botón Atrás
+     */
     @FXML
     public void atras( ) {
         App.loadFXML( "pedidos-view.fxml" , "Pedidos de " + Sesion.getUsuarioActual( ).getNombreusuario( ) );
         Sesion.setItemPulsado( null );
     }
 
+    /**
+     * Función botón logout
+     */
     @FXML
     public void logout( ) {
         Sesion.logout();
         App.loadFXML( "login-view.fxml" , "Iniciar Sesión" );
     }
 
+    /**
+     * Función botón editar
+     */
     @FXML
     public void editar( ) {
         try {
@@ -151,7 +169,7 @@ public class EditarPedidoController implements Initializable {
             } else {
                 modificaItem( spinnerCantidad.getValue( ) );
             }
-            pedidoDAO.actualizarFecha();
+            pedidoDAO.actualizarFecha(Sesion.getPedidoPulsado());
             this.rellenarTabla( );
             this.menuLateral.setDisable( true );
             this.tablaDetallesPedido.setDisable( false );
@@ -162,6 +180,10 @@ public class EditarPedidoController implements Initializable {
         }
     }
 
+    /**
+     * Modifica la cantidad de un item
+     * @param cantidad Nueva cantidad del item
+     */
     private void modificaItem( Integer cantidad ) {
         Item itemModificado = itemDAO.itemEnPedidoPorNombre( Sesion.getPedidoPulsado( ) ,
                                                              comboNombre.getValue( ) );
@@ -171,6 +193,9 @@ public class EditarPedidoController implements Initializable {
         itemDAO.update( itemModificado );
     }
 
+    /**
+     * Función botón Añadir
+     */
     @FXML
     public void aniadir( ) {
         Sesion.setEsUnNuevoProducto( true );
@@ -182,6 +207,9 @@ public class EditarPedidoController implements Initializable {
         spinnerCantidad.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory( 1 , 1000 , 1 , 1 ) );
     }
 
+    /**
+     * Función botón eliminar
+     */
     @FXML
     public void eliminar( ) {
         if (Sesion.getItemPulsado( ) != null) {
@@ -191,19 +219,13 @@ public class EditarPedidoController implements Initializable {
         }
     }
 
+    /**
+     * Función botón cancelar
+     */
     @FXML
     public void cancelar( ) {
         this.menuLateral.setDisable( true );
         this.tablaDetallesPedido.setDisable( false );
     }
 
-    @FXML
-    public void guardar(  ) {
-        if(Sesion.isEsUnNuevoPedido()){
-//            Pedido nuevoPedido = new Pedido(  );
-//            nuevoPedido.setUsuario( Sesion.getUsuarioActual() );
-//            nuevoPedido.setTotal(  );
-//            pedidoDAO.save(  )
-        }
-    }
 }

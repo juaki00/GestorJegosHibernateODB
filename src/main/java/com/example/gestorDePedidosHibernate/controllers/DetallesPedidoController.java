@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la vista Detalles de un pedido
+ */
 public class DetallesPedidoController implements Initializable
 {
 
@@ -39,6 +42,9 @@ public class DetallesPedidoController implements Initializable
     @FXML
     private Button btnAtras;
 
+    /**
+     * Metodo inicializar
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -66,11 +72,17 @@ public class DetallesPedidoController implements Initializable
         tablaDetallesPedido.setItems(observableList);
 }
 
+    /**
+     * Función botón atrás
+     */
     @FXML
     public void atras() {
         App.loadFXML("pedidos-view.fxml", "Pedidos de " + Sesion.getUsuarioActual().getNombreusuario());
     }
 
+    /**
+     * Función botón logout
+     */
     @FXML
     public void logout() {
         Sesion.logout();

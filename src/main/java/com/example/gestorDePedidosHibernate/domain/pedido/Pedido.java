@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Representa un Pedido
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

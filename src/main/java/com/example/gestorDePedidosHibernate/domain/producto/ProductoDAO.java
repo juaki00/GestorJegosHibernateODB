@@ -7,6 +7,9 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
+/**
+ * DAO para consultas relacionadas con los productos
+ */
 public class ProductoDAO implements DAO<Producto> {
     @Override
     public List<Producto> getAll() {
@@ -33,6 +36,11 @@ public class ProductoDAO implements DAO<Producto> {
 
     }
 
+    /**
+     * Devuelve una instancia de un producto por su nombre
+     * @param nombreProducto Nombre a buscar
+     * @return Devuelve un objeto del producto con ese nombre o null si no existe
+     */
     public Producto productoPorNombre(String nombreProducto){
         Producto result = null;
         try(Session s = HibernateUtils.getSessionFactory().openSession()) {

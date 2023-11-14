@@ -11,6 +11,9 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
+/**
+ * DAO para consultas relacionadas con los items
+ */
 public class ItemDAO implements DAO<Item> {
     @Override
     public List<Item> getAll() {
@@ -27,6 +30,10 @@ public class ItemDAO implements DAO<Item> {
         return null;
     }
 
+    /**
+     * Actualizar un Item
+     * @param data item modificado
+     */
     @Override
     public void update(Item data) {
 
@@ -40,6 +47,10 @@ public class ItemDAO implements DAO<Item> {
         }
     }
 
+    /**
+     * Borra un item
+     * @param data Item que borrar
+     */
     @Override
     public void delete(Item data) {
         HibernateUtils.getSessionFactory().inTransaction(session -> {
@@ -48,10 +59,12 @@ public class ItemDAO implements DAO<Item> {
         });
     }
 
-    public Item itemEnPedidoPorProducto(Pedido p, Producto producto){
-        return itemEnPedidoPorNombre(p,producto.getNombre());
-    }
-
+    /**
+     * Devuelve el Item si existe un producto en un pedido
+     * @param p Pedido en el cual buscar
+     * @param nombreProducto Nombre del producto a buscr
+     * @return Item del pedido con ese producto o null si no existe
+     */
     public Item itemEnPedidoPorNombre(Pedido p, String nombreProducto){
         Item result = null;
         try(Session s = HibernateUtils.getSessionFactory().openSession()) {

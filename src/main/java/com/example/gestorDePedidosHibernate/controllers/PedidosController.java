@@ -22,6 +22,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la ventana Pedidos de un usuario
+ */
 public class PedidosController implements Initializable {
 
     PedidoDAO pedidoDAO;
@@ -66,6 +69,9 @@ public class PedidosController implements Initializable {
 
     }
 
+    /**
+     * Llenar la tabla de valores de la base de datos
+     */
     private void rellenarTabla( ) {
         Usuario usuario = Sesion.getUsuarioActual( );
         pedidoDAO = new PedidoDAO( );
@@ -95,17 +101,26 @@ public class PedidosController implements Initializable {
         tablaPedidos.setItems( observableList );
     }
 
+    /**
+     * Función botón logout
+     */
     @javafx.fxml.FXML
     public void logoutButton( ) {
         Sesion.logout();
         App.loadFXML( "login-view.fxml" , "Iniciar Sesión" );
     }
 
+    /**
+     * Función botón detalles
+     */
     @javafx.fxml.FXML
     public void detalles( ) {
         if (Sesion.getPedidoPulsado( ) != null) App.loadFXML( "detallesPedido-view.fxml" , "Detalles del pedido" );
     }
 
+    /**
+     * Función botón editar
+     */
     @javafx.fxml.FXML
     public void editar( ) {
         if(Sesion.getPedidoPulsado() != null){
@@ -114,6 +129,9 @@ public class PedidosController implements Initializable {
         }
     }
 
+    /**
+     * Función botón eliminar
+     */
     @FXML
     public void eliminar( ) {
         if (Sesion.getPedidoPulsado( ) != null) {
@@ -122,6 +140,9 @@ public class PedidosController implements Initializable {
         }
     }
 
+    /**
+     * Función botón añadir
+     */
     @FXML
     public void aniadir( ) {
         Sesion.setEsUnNuevoPedido( true );

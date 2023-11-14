@@ -17,6 +17,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO para consultas relacionadas con los pedidos
+ */
 @Log
 public class PedidoDAO implements DAO<Pedido> {
     @Override
@@ -29,6 +32,11 @@ public class PedidoDAO implements DAO<Pedido> {
         return null;
     }
 
+    /**
+     * Guardar un nuevo pedido en la base de datos
+     * @param data Pedido nuevo
+     * @return Devuelve el nuevo pedido
+     */
     @Override
     public Pedido save( Pedido data ) {
 
@@ -49,6 +57,10 @@ public class PedidoDAO implements DAO<Pedido> {
 
     }
 
+    /**
+     * Borrar un pedido
+     * @param data Pedido a borrar
+     */
     @Override
     public void delete( Pedido data ) {
 
@@ -63,6 +75,11 @@ public class PedidoDAO implements DAO<Pedido> {
         });
     }
 
+    /**
+     * Pedidos que corresponde a un usuario
+     * @param usuario Usuario por el cual filtrar los pedidos
+     * @return Lista de los pedidos del usuario
+     */
     public List<Pedido> pedidosDeUnUsuario( Usuario usuario ) {
 
         List<Pedido> salida = new ArrayList<>( );
@@ -82,6 +99,11 @@ public class PedidoDAO implements DAO<Pedido> {
         return salida;
     }
 
+    /**
+     * Items correspondiente a un pedido
+     * @param pedidoPulsado Pedido por el que filtrar los items
+     * @return Lista  de Items correspondiente a un pedido
+     */
     public List<Item> detallesDeUnPedido( Pedido pedidoPulsado ) {
         List<Item> result;
         try ( Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
@@ -92,6 +114,10 @@ public class PedidoDAO implements DAO<Pedido> {
         return result;
     }
 
+    /**
+     * Todos los productos de la base de datos
+     * @return Lista de todos los productos que estan en la base de datos
+     */
     public List<String> todosLosProductos( ) {
         List<String> resultado = new ArrayList<String>( );
         try ( Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
@@ -102,6 +128,12 @@ public class PedidoDAO implements DAO<Pedido> {
         return resultado;
     }
 
+    /**
+     * Añadir nuevo item a un pedido
+     * @param ped Pedido al cual añadir el item
+     * @param cant Cantidad del producto añadido
+     * @param prod Producto correspondiente al nuevo item
+     */
     public void insertarItemAPedido( Pedido ped , Integer cant , Producto prod ) {
         try ( org.hibernate.Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
             Transaction t = s.beginTransaction( );
@@ -117,6 +149,12 @@ public class PedidoDAO implements DAO<Pedido> {
         }
     }
 
+    /**
+     * Busca un producto en un pedido
+     * @param nombreProducto Nombre del producto a buscar
+     * @param pedido Pedido donde buscar el producto
+     * @return Producto si esta en el pedido o null si no está
+     */
     public Producto buscaProductoEnPedido( String nombreProducto , Pedido pedido ) {
         Producto producto = null;
         try ( org.hibernate.Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
@@ -129,23 +167,23 @@ public class PedidoDAO implements DAO<Pedido> {
         return producto;
     }
 
+    /**
+     * Checkea si el producto esta en el pedido
+     * @param nombreProducto Nombre del producto a buscar
+     * @param pedido Pedido donde buscar el producto
+     * @return True si existe o false si no existe el producto
+     */
     public boolean estaProductoEnPedido( String nombreProducto , Pedido pedido ) {
         return buscaProductoEnPedido( nombreProducto , pedido ) != null;
     }
 
-    public void actualizarFecha(){
+    /**
+     * Actualiza la fecha del pedido pulsado
+     */
+    public void actualizarFecha(Pedido ped){
         HibernateUtils.getSessionFactory().inTransaction(s -> {
-            Pedido p = s.get( Pedido.class , Sesion.getPedidoPulsado().getId_pedido() );
+            Pedido p = s.get( Pedido.class , ped.getId_pedido() );
             p.setFecha( LocalDate.now().toString() );
         });
-    }
-
-    public String calculaTotalDeUnPedido( Pedido pedido ) {
-        Double sumaTotal = 0.0;
-        List<Item> items = new ArrayList<Item>( );
-        for (Item i : pedido.getItems( )) {
-            sumaTotal = sumaTotal + (i.getCantidad( ) * i.getProducto( ).getPrecio( ));
-        }
-        return sumaTotal.toString( );
     }
 }

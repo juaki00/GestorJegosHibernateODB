@@ -7,7 +7,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-
+/**
+ * Corresponde a un Item de un pedido, contiene un producto, el numero de unidades del producto y el pedido al que pertenece
+ */
 @Data
 @Entity
 @Table(name = "item")
