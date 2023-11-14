@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Aplicacion principal
+ */
 public class App extends Application {
     @Getter
     @Setter
@@ -34,8 +37,12 @@ public class App extends Application {
         stage.show();
     }
 
+    /**
+     * Cargar escena y cambiar el titulo.
+     * @param fxml nombre del archivo donde está la nueva escena
+     * @param titulo Nombre del nuevo título
+     */
     public static void loadFXML(String fxml, String titulo){
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("controllers/"+fxml));
             Scene scene = new Scene(fxmlLoader.load());
@@ -46,8 +53,12 @@ public class App extends Application {
             System.out.println("Error al cargar el archivo "+fxml);
             throw new RuntimeException(e);
         }
-
     }
+
+    /**
+     * Metodo main
+     * @param args No se usan argumentos
+     */
     public static void main(String[] args) {
         launch();
     }

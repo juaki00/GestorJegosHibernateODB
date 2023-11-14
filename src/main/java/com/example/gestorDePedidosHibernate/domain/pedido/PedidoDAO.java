@@ -3,6 +3,7 @@ package com.example.gestorDePedidosHibernate.domain.pedido;
 import com.example.gestorDePedidosHibernate.domain.DAO;
 import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
 //import com.example.gestorDePedidosHibernate.domain.item.Item;
+import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
@@ -12,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,6 +131,13 @@ public class PedidoDAO implements DAO<Pedido> {
 
     public boolean estaProductoEnPedido( String nombreProducto , Pedido pedido ) {
         return buscaProductoEnPedido( nombreProducto , pedido ) != null;
+    }
+
+    public void actualizarFecha(){
+        HibernateUtils.getSessionFactory().inTransaction(s -> {
+            Pedido p = s.get( Pedido.class , Sesion.getPedidoPulsado().getId_pedido() );
+            p.setFecha( LocalDate.now().toString() );
+        });
     }
 
     public String calculaTotalDeUnPedido( Pedido pedido ) {

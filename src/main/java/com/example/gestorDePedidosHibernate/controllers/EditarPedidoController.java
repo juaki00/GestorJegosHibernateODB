@@ -151,7 +151,7 @@ public class EditarPedidoController implements Initializable {
             } else {
                 modificaItem( spinnerCantidad.getValue( ) );
             }
-
+            pedidoDAO.actualizarFecha();
             this.rellenarTabla( );
             this.menuLateral.setDisable( true );
             this.tablaDetallesPedido.setDisable( false );

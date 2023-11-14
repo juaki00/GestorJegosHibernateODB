@@ -1,9 +1,9 @@
             /*-------------Tipo  y tamaño de letra-------------*/
-
   .root{
       -fx-font-family: "MingLiU-ExtB";
       -fx-font-size: 19px;
   }
+
             /*-------------Sombreado 3D-------------*/
 Button, .tabla, .titulo{
     -fx-effect: dropshadow(three-pass-box, rgb(19, 39, 87), 10, 0, 2, 2);
@@ -24,34 +24,36 @@ Button {
 Button:hover{
     -fx-cursor: HAND;
 }
-Button.btnLogout {
-    -fx-background-color: #cb6f6f;
-}
 Button.btnEntrar{
     -fx-background-color: #becca9;
+}
+Button.btnEntrar:hover{
+    -fx-background-color: #98a978;
 }
 Button.btnAtras {
     -fx-background-color: #ccb8b4;
 }
-Button.btnEntrar:hover, Button.btnAtras:hover  {
-    -fx-background-color: #88726b;
+Button.btnAtras:hover  {
+    -fx-background-color: #b29c97;
+}
+Button.btnLogout {
+    -fx-background-color: #e38b8b;
 }
 Button.btnLogout:hover {
-    -fx-background-color: #8f4f4f;
+    -fx-background-color: #b47575;
 }
+
             /*-------------Tablas-------------*/
 .root .table-view{
     -fx-control-inner-background: #eee8e7;
     -fx-border-width: 0px;
 }
-
 .tabla{
     -fx-background-color: #eee8e7;
     -fx-border-style: none;
     -fx-border-color: transparent;
     -fx-border-width: 0px;
 }
-
 .table-row-cell .table-cell {
     -fx-border-width: 0px;
     -fx-font: 19px "MingLiU-ExtB";

@@ -11,7 +11,7 @@
 
 <BorderPane fx:id="ventana" prefHeight="600.0" prefWidth="1000.0" styleClass="fondo" stylesheets="@css/estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.PedidosController">
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="721.0">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0">
          <children>
             <BorderPane prefHeight="66.0" prefWidth="618.0">
                <left>
@@ -23,7 +23,7 @@
                             <Font name="MingLiU-ExtB" size="24.0" />
                         </font>
                      <BorderPane.margin>
-                        <Insets bottom="-10.0" />
+                        <Insets bottom="-15.0" />
                      </BorderPane.margin>
                     </Label>
                </left>
