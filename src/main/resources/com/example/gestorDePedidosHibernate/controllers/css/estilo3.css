@@ -7,7 +7,9 @@
             /*-------------Sombreado 3D-------------*/
 Button, .tabla, .titulo{
     -fx-effect: dropshadow(three-pass-box, rgb(19, 39, 87), 10, 0, 2, 2);
+
 }
+
 
             /*-------------Botones-------------*/
 Button {
@@ -45,14 +47,21 @@ Button.btnLogout:hover {
 
             /*-------------Tablas-------------*/
 .root .table-view{
-    -fx-control-inner-background: #eee8e7;
+    -fx-control-inner-background: #fae1d9;
     -fx-border-width: 0px;
 }
 .tabla{
-    -fx-background-color: #eee8e7;
     -fx-border-style: none;
     -fx-border-color: transparent;
     -fx-border-width: 0px;
+}
+.fondoLogin{
+    -fx-effect: dropshadow(three-pass-box, rgb(19, 39, 87), 10, 0, 2, 2);
+    -fx-border-style: none;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
+    -fx-background-image: url("fondoMar1.jpg");
+    -fx-background-repeat: center ;
 }
 .table-row-cell .table-cell {
     -fx-border-width: 0px;
@@ -64,10 +73,10 @@ Button.btnLogout:hover {
     -fx-alignment: center center;
 }
 .table-row-cell:even{
-    -fx-background-color: rgb(224, 220, 218);
+    -fx-background-color: rgb(248, 214, 203);
 }
 .table-row-cell:odd{
-    -fx-background-color: rgb(238, 234, 234);
+    -fx-background-color: rgb(250, 225, 217);
 }
 .table-row-cell:hover, .table-row-cell:selected {
     -fx-background-color: #cacede;
@@ -76,9 +85,9 @@ Button.btnLogout:hover {
     -fx-cursor: HAND;
 }
 .table-row-cell:empty, .table-cell:empty:hover {
-    -fx-background-color: #eee8e7;
+    -fx-background-color: #fae1d9;
     -fx-border-width: 0px;
-    -fx-border-color: #eee8e7;
+    -fx-border-color: #fae1d9;
     -fx-cursor: DEFAULT;
     -fx-effect: none;
 }
@@ -93,7 +102,10 @@ Button.btnLogout:hover {
     -fx-border-radius: 10 10 0 0;
 }
 .fondo{
-    -fx-background-color: rgb(213, 220, 229);
+    -fx-background-image: url("fondoMar.jpg");
+    -fx-scale-factor: 0.1;
+    -fx-background-repeat: repeat;
+    -fx-background-color: rgb(250, 225, 217);
     -fx-border-width: 0px;
 }
 

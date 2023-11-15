@@ -13,9 +13,9 @@
 
 <BorderPane minHeight="600.0" minWidth="1000.0" styleClass="fondo" stylesheets="@css/estilo3.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestorDePedidosHibernate.controllers.LoginController">
    <center>
-      <BorderPane id="btnEntrar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0" BorderPane.alignment="CENTER">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="677.0" BorderPane.alignment="CENTER">
          <center>
-              <VBox alignment="CENTER" spacing="45.0">
+              <VBox alignment="CENTER" spacing="45.0" styleClass="fondoLogin">
                   <children>
                   <TilePane alignment="TOP_CENTER" prefHeight="54.0" prefWidth="302.0">
                      <children>

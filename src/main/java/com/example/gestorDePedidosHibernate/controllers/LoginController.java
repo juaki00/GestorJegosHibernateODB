@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.*;
 import lombok.Data;
 
 import java.io.IOException;
@@ -32,6 +34,8 @@ public class LoginController implements Initializable {
     private PasswordField tfPass;
     @FXML
     private Label info;
+    @FXML
+    private BorderPane mainPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

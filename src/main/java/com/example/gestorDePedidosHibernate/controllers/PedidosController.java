@@ -12,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
@@ -135,8 +132,14 @@ public class PedidosController implements Initializable {
     @FXML
     public void eliminar( ) {
         if (Sesion.getPedidoPulsado( ) != null) {
-            pedidoDAO.delete( Sesion.getPedidoPulsado( ) );
-            this.rellenarTabla( );
+            Alert alert = new Alert( Alert.AlertType.CONFIRMATION );
+            alert.setContentText( "¿Deseas borrar el pedido número " + Sesion.getPedidoPulsado( ).getId_pedido( ) +"?" );
+            var result = alert.showAndWait( ).get( );
+            if (result.getButtonData( ) == ButtonBar.ButtonData.OK_DONE) {
+                pedidoDAO.delete( Sesion.getPedidoPulsado( ) );
+                this.rellenarTabla( );
+                Sesion.setPedidoPulsado( null );
+            }
         }
     }
 
