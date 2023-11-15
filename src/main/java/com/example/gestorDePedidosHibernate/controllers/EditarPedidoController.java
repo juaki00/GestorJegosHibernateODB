@@ -140,6 +140,7 @@ public class EditarPedidoController implements Initializable {
     public void atras( ) {
         App.loadFXML( "pedidos-view.fxml" , "Pedidos de " + Sesion.getUsuarioActual( ).getNombreusuario( ) );
         Sesion.setItemPulsado( null );
+        Sesion.setPedidoPulsado( null );
     }
 
     /**
@@ -213,9 +214,15 @@ public class EditarPedidoController implements Initializable {
     @FXML
     public void eliminar( ) {
         if (Sesion.getItemPulsado( ) != null) {
-            itemDAO.delete( Sesion.getItemPulsado( ) );
-            this.rellenarTabla( );
-            this.menuLateral.setDisable( true );
+            Alert alert = new Alert( Alert.AlertType.CONFIRMATION );
+            alert.setContentText( "¿Deseas borrar " + Sesion.getItemPulsado( ).getProducto().getNombre( ) + " del pedido?" );
+            var result = alert.showAndWait( ).get( );
+            if (result.getButtonData( ) == ButtonBar.ButtonData.OK_DONE) {
+                itemDAO.delete( Sesion.getItemPulsado( ) );
+                this.rellenarTabla( );
+                this.menuLateral.setDisable( true );
+                Sesion.setItemPulsado( null );
+            }
         }
     }
 

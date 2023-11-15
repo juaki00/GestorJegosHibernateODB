@@ -77,6 +77,7 @@ public class DetallesPedidoController implements Initializable
      */
     @FXML
     public void atras() {
+        Sesion.setPedidoPulsado( null );
         App.loadFXML("pedidos-view.fxml", "Pedidos de " + Sesion.getUsuarioActual().getNombreusuario());
     }
 
