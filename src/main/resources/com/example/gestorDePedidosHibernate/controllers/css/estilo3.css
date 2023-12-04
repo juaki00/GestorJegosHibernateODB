@@ -10,7 +10,6 @@ Button, .tabla, .titulo{
 
 }
 
-
             /*-------------Botones-------------*/
 Button {
     -fx-background-color: #998580;
@@ -61,7 +60,7 @@ Button.btnLogout:hover {
     -fx-border-color: transparent;
     -fx-border-width: 0px;
     -fx-background-image: url("fondoMar1.jpg");
-    -fx-background-repeat: center ;
+    -fx-background-repeat: repeat ;
 }
 .table-row-cell .table-cell {
     -fx-border-width: 0px;

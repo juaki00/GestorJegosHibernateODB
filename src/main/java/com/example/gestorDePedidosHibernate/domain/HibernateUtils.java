@@ -4,14 +4,20 @@ import lombok.extern.java.Log;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.sql.SQLException;
+
 /**
  * Utilidades de hibernate
  */
 @Log
 public class HibernateUtils {
-    private static SessionFactory sf = null;
+    private static SessionFactory sf;
 
     static {
+        buildSessionFactory( );
+    }
+
+    public static void buildSessionFactory( ) {
         try {
             Configuration cfg = new Configuration();
             cfg.configure();
@@ -27,6 +33,7 @@ public class HibernateUtils {
      * @return devuelve una instancia de una sesion factory de hibernate
      */
     public static SessionFactory getSessionFactory(){
+
         return sf;
     }
 }

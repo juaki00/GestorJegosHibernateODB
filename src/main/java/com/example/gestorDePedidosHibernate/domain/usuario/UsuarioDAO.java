@@ -5,12 +5,14 @@ import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
+import lombok.extern.java.Log;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Log
 public class UsuarioDAO implements DAO<Usuario> {
 
     @Override
@@ -50,17 +52,22 @@ public class UsuarioDAO implements DAO<Usuario> {
     public Usuario loadLogin(String user, String pass) {
         Usuario result = null;
 
+        if(HibernateUtils.getSessionFactory()==null){
+            HibernateUtils.buildSessionFactory();
+        }
+
         try(Session session = HibernateUtils.getSessionFactory().openSession()){
             Query<Usuario> q = session.createQuery("from Usuario where nombreusuario=:u and pass=:p", Usuario.class);
             q.setParameter("u",user);
             q.setParameter("p",pass);
 
-            try {
-                result = q.getSingleResult();
-            }catch (Exception e){
-
-            }
+            result = q.getSingleResult();
+        }
+        catch (Exception e){
+            log.severe( "Error al iniciar la sesion" );
         }
         return result;
     }
+
 }
+

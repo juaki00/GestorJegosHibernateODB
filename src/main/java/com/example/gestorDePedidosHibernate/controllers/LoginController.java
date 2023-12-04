@@ -65,6 +65,7 @@ public class LoginController implements Initializable {
 
         UsuarioDAO dao = new UsuarioDAO();
         try{
+
             if (dao.isCorrectUser(tfUsuario.getText(), tfPass.getText())) {
                 Sesion.setUsuarioActual(dao.loadLogin(tfUsuario.getText(), tfPass.getText() ));
 

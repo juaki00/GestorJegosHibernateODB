@@ -69,7 +69,7 @@ public class PedidoDAO implements DAO<Pedido> {
             q.setParameter( "ped" , data );
             List<Item> items = q.getResultList( );
             Pedido i = s.get( Pedido.class , data.getId_pedido( ) );
-            items.forEach( it -> s.remove( it ) );
+            items.forEach( s::remove );
 
             s.remove( i );
         });
