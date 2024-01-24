@@ -104,10 +104,10 @@ public class DetallesPedidoController implements Initializable
             hm.put( "idPedido", Sesion.getPedidoPulsado().getId_pedido() );
             JasperPrint jasperPrint;
             try {
-                jasperPrint = JasperFillManager.fillReport( "Leaf_Green.jasper", hm, c);
+                jasperPrint = JasperFillManager.fillReport( "pedidos.jasper", hm, c);
                 JRPdfExporter exp = new JRPdfExporter();
                 exp.setExporterInput(new SimpleExporterInput( jasperPrint));
-                exp.setExporterOutput(new SimpleOutputStreamExporterOutput( "pedidos.pdf"));
+                exp.setExporterOutput(new SimpleOutputStreamExporterOutput( "pedido"+Sesion.getPedidoPulsado().getId_pedido()+".pdf"));
                 exp.setConfiguration(new SimplePdfExporterConfiguration());
                 exp.exportReport();
                 log.setText( "Pdf exportado corectamente" );
@@ -131,7 +131,7 @@ public class DetallesPedidoController implements Initializable
             hm.put( "idPedido", Sesion.getPedidoPulsado().getId_pedido() );
             JasperPrint jasperPrint;
             try {
-                jasperPrint = JasperFillManager.fillReport( "Leaf_Green.jasper", hm, c);
+                jasperPrint = JasperFillManager.fillReport( "pedidos.jasper", hm, c);
                 JRViewer viewer = new JRViewer( jasperPrint);
 
                 JFrame frame = new JFrame( "Listado de Juegos");
