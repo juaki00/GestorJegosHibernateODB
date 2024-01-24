@@ -87,14 +87,16 @@ public class PedidoDAO implements DAO<Pedido> {
             Query<Usuario> q = s.createQuery( "from Usuario where id_usuario =: id" , Usuario.class );
             q.setParameter( "id" , usuario.getId_usuario( ) );
             salida = q.getSingleResult( ).getPedidos( );
-        }
-        for (Pedido pedido : salida) {
-            Double total = 0.0;
-            for (Item item : pedido.getItems( )) {
-                total = total + item.getCantidad( ) * item.getProducto( ).getPrecio( );
+
+            for (Pedido pedido : salida) {
+                Double total = 0.0;
+                for (Item item : pedido.getItems( )) {
+                    total = total + item.getCantidad( ) * item.getProducto( ).getPrecio( );
+                }
+                DecimalFormat formato = new DecimalFormat( "#0.00" );
+                pedido.setTotal( formato.format( total ) );
+
             }
-            DecimalFormat formato = new DecimalFormat( "#0.00" );
-            pedido.setTotal( formato.format( total ) );
         }
         return salida;
     }

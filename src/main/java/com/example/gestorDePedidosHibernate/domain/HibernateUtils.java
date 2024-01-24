@@ -2,8 +2,10 @@ package com.example.gestorDePedidosHibernate.domain;
 
 import lombok.extern.java.Log;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -35,5 +37,11 @@ public class HibernateUtils {
     public static SessionFactory getSessionFactory(){
 
         return sf;
+    }
+
+    public static Connection getConnection(){
+        Transaction transaction = sf.getCurrentSession().beginTransaction();
+
+        return sf.getCurrentSession().unwrap( Connection.class );
     }
 }

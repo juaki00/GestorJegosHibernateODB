@@ -1,25 +1,30 @@
 package com.example.gestorDePedidosHibernate.controllers;
 
 import com.example.gestorDePedidosHibernate.App;
+import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
 import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
-import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
-import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.swing.JRViewer;
 
+import javax.swing.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Controlador de la vista Detalles de un pedido
@@ -38,9 +43,7 @@ public class DetallesPedidoController implements Initializable
     @FXML
     private Label labelTitulo;
     @FXML
-    private Button btnLogout;
-    @FXML
-    private Button btnAtras;
+    private Label log;
 
     /**
      * Metodo inicializar
@@ -88,5 +91,58 @@ public class DetallesPedidoController implements Initializable
     public void logout() {
         Sesion.logout();
         App.loadFXML("login-view.fxml", "Iniciar Sesión");
+    }
+
+    @FXML
+    public void exportarPdf( ){
+        HibernateUtils.getSessionFactory().getCurrentSession().beginTransaction();
+
+// Obtener la conexión utilizando session.doWork()
+        HibernateUtils.getSessionFactory().getCurrentSession().doWork(c -> {
+
+            HashMap<String,Object> hm = new HashMap<>();
+            hm.put( "idPedido", Sesion.getPedidoPulsado().getId_pedido() );
+            JasperPrint jasperPrint;
+            try {
+                jasperPrint = JasperFillManager.fillReport( "Leaf_Green.jasper", hm, c);
+                JRPdfExporter exp = new JRPdfExporter();
+                exp.setExporterInput(new SimpleExporterInput( jasperPrint));
+                exp.setExporterOutput(new SimpleOutputStreamExporterOutput( "pedidos.pdf"));
+                exp.setConfiguration(new SimplePdfExporterConfiguration());
+                exp.exportReport();
+                log.setText( "Pdf exportado corectamente" );
+                log.setStyle( "-fx-text-fill: #48ff00" );
+            } catch ( JRException e ) {
+                log.setText( "Error al exportar el pdf" );
+                log.setStyle( "-fx-text-fill: red" );
+            }
+        });
+        HibernateUtils.getSessionFactory().getCurrentSession().getTransaction().commit();
+    }
+
+    @FXML
+    public void reporteNuevaVentana() {
+        HibernateUtils.getSessionFactory().getCurrentSession().beginTransaction();
+
+// Obtener la conexión utilizando session.doWork()
+        HibernateUtils.getSessionFactory().getCurrentSession().doWork(c -> {
+
+            HashMap<String,Object> hm = new HashMap<>();
+            hm.put( "idPedido", Sesion.getPedidoPulsado().getId_pedido() );
+            JasperPrint jasperPrint;
+            try {
+                jasperPrint = JasperFillManager.fillReport( "Leaf_Green.jasper", hm, c);
+                JRViewer viewer = new JRViewer( jasperPrint);
+
+                JFrame frame = new JFrame( "Listado de Juegos");
+                frame.getContentPane().add(viewer);
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frame.setVisible(true);
+            } catch ( JRException e ) {
+                log.setText( "Error al crear el reporte" );
+                log.setStyle( "-fx-text-fill: red" );
+            }
+        });
+        HibernateUtils.getSessionFactory().getCurrentSession().getTransaction().commit();
     }
 }

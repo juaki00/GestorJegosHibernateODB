@@ -12,6 +12,7 @@
         <property name="hibernate.connection.username">root</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
+        <property name="hibernate.current_session_context_class">thread</property>
         <mapping class="com.example.gestorDePedidosHibernate.domain.usuario.Usuario"/>
         <mapping class="com.example.gestorDePedidosHibernate.domain.pedido.Pedido"/>
         <mapping class="com.example.gestorDePedidosHibernate.domain.item.Item"/>

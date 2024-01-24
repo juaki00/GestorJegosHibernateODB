@@ -6,7 +6,9 @@ module com.example.gestorjegoshibernate {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires java.naming;
-    requires java.sql; //para fechas
+    requires java.sql;
+    requires jasperreports;
+    requires java.desktop; //para fechas
 
     opens com.example.gestorDePedidosHibernate.domain.usuario;
     opens com.example.gestorDePedidosHibernate.domain.pedido;
