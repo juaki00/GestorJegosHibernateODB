@@ -1,7 +1,7 @@
 package com.example.gestorDePedidosHibernate.domain.usuario;
 
 import com.example.gestorDePedidosHibernate.domain.DAO;
-import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
+import com.example.gestorDePedidosHibernate.domain.ODB;
 import lombok.extern.java.Log;
 
 import javax.persistence.EntityManager;
@@ -15,7 +15,7 @@ public class UsuarioDAO implements DAO<Usuario> {
     @Override
     public List<Usuario> getAll() {
         List<Usuario> result;
-        EntityManager em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+        EntityManager em = ODB.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
         return query.getResultList();
@@ -50,7 +50,7 @@ public class UsuarioDAO implements DAO<Usuario> {
         Usuario result = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+            em = ODB.getEntityManagerFactory().createEntityManager();
             Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreusuario = :user AND u.pass = :pass", Usuario.class);
             q.setParameter("user", user);
             q.setParameter("pass", pass);

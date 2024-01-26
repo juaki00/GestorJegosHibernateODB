@@ -10,7 +10,7 @@ import java.sql.Connection;
  * Utilidades de hibernate
  */
 @Log
-public class HibernateUtils {
+public class ODB {
     private static final EntityManagerFactory emf;
 
     static{

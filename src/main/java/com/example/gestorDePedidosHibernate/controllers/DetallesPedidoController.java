@@ -1,7 +1,7 @@
 package com.example.gestorDePedidosHibernate.controllers;
 
 import com.example.gestorDePedidosHibernate.App;
-import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
+import com.example.gestorDePedidosHibernate.domain.ODB;
 import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.pedido.PedidoDAO;
@@ -100,7 +100,7 @@ public class DetallesPedidoController implements Initializable
         EntityManager em = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             em.getTransaction().begin();
 
             HashMap<String, Object> hm = new HashMap<>();
@@ -140,7 +140,7 @@ public class DetallesPedidoController implements Initializable
         EntityManager em = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
                     em.getTransaction().begin();
 
             HashMap<String, Object> hm = new HashMap<>();

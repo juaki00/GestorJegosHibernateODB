@@ -1,7 +1,7 @@
 package com.example.gestorDePedidosHibernate.domain.producto;
 
 import com.example.gestorDePedidosHibernate.domain.DAO;
-import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
+import com.example.gestorDePedidosHibernate.domain.ODB;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -46,7 +46,7 @@ public class ProductoDAO implements DAO<Producto> {
         Producto result = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             Query q = em.createQuery("SELECT p FROM Producto p WHERE p.nombre = :nombre", Producto.class);
             q.setParameter("nombre", nombreProducto);
             result = ( Producto ) q.getSingleResult();

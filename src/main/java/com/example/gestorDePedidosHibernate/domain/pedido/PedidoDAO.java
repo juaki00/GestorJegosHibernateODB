@@ -1,9 +1,8 @@
 package com.example.gestorDePedidosHibernate.domain.pedido;
 
 import com.example.gestorDePedidosHibernate.domain.DAO;
-import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
+import com.example.gestorDePedidosHibernate.domain.ODB;
 //import com.example.gestorDePedidosHibernate.domain.item.Item;
-import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
@@ -43,7 +42,7 @@ public class PedidoDAO implements DAO<Pedido> {
         Pedido salida = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             EntityTransaction tx = em.getTransaction();
             tx.begin();
 
@@ -78,7 +77,7 @@ public class PedidoDAO implements DAO<Pedido> {
         EntityManager em = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             EntityTransaction tx = em.getTransaction();
             tx.begin();
 
@@ -113,7 +112,7 @@ public class PedidoDAO implements DAO<Pedido> {
         List<Pedido> salida = new ArrayList<>();
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             Query q = em.createQuery( "SELECT u FROM Usuario u WHERE u.id_usuario = :id", Usuario.class);
             q.setParameter("id", usuario.getId_usuario());
             Usuario usuarioEncontrado = ( Usuario ) q.getSingleResult();
@@ -154,7 +153,7 @@ public class PedidoDAO implements DAO<Pedido> {
         List<Item> result = new ArrayList<>();
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             Query q = em.createQuery( "SELECT p FROM Pedido p WHERE p.id_pedido = :id", Pedido.class);
             q.setParameter("id", pedidoPulsado.getId_pedido());
             Pedido pedidoEncontrado = ( Pedido ) q.getSingleResult();
@@ -183,7 +182,7 @@ public class PedidoDAO implements DAO<Pedido> {
         List<String> resultado = new ArrayList<>();
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             Query q = em.createQuery("SELECT DISTINCT p.nombre FROM Producto p", String.class);
             resultado = q.getResultList();
         } catch (Exception e) {
@@ -207,7 +206,7 @@ public class PedidoDAO implements DAO<Pedido> {
         EntityManager em = null;
 
         try {
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             EntityTransaction tx = em.getTransaction();
             tx.begin();
 
@@ -242,7 +241,7 @@ public class PedidoDAO implements DAO<Pedido> {
 
         try {
 
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             Query q = em.createQuery(
                     "SELECT i.producto FROM Item i WHERE i.producto.nombre = :nombre AND i.pedido.id_pedido = :idPedido", Producto.class);
             q.setParameter("nombre", nombreProducto);
@@ -277,7 +276,7 @@ public class PedidoDAO implements DAO<Pedido> {
 
         try {
 
-            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory( ).createEntityManager( );
             em.getTransaction().begin();
 
             Pedido p = em.find(Pedido.class, ped.getId_pedido());
