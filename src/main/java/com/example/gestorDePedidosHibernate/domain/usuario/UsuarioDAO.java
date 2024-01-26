@@ -2,14 +2,11 @@ package com.example.gestorDePedidosHibernate.domain.usuario;
 
 import com.example.gestorDePedidosHibernate.domain.DAO;
 import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
-import com.example.gestorDePedidosHibernate.domain.item.Item;
-import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
-import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import lombok.extern.java.Log;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Log
@@ -17,12 +14,11 @@ public class UsuarioDAO implements DAO<Usuario> {
 
     @Override
     public List<Usuario> getAll() {
-        List<Usuario> result = null;
-        try(Session s = HibernateUtils.getSessionFactory().openSession()){
-            Query<Usuario> q = s.createQuery("from Usuario",Usuario.class);
-            result = q.getResultList();
-        }
-        return  result;
+        List<Usuario> result;
+        EntityManager em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+        TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
+        return query.getResultList();
     }
 
     @Override
@@ -50,22 +46,27 @@ public class UsuarioDAO implements DAO<Usuario> {
     }
 
     public Usuario loadLogin(String user, String pass) {
+        EntityManager em = null;
         Usuario result = null;
 
-        if(HibernateUtils.getSessionFactory()==null){
-            HibernateUtils.buildSessionFactory();
+        try {
+            em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreusuario = :user AND u.pass = :pass", Usuario.class);
+            q.setParameter("user", user);
+            q.setParameter("pass", pass);
+
+            List<Usuario> resultList = q.getResultList();
+            if (!resultList.isEmpty()) {
+                result = resultList.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
 
-        try(Session session = HibernateUtils.getSessionFactory().openSession()){
-            Query<Usuario> q = session.createQuery("from Usuario where nombreusuario=:u and pass=:p", Usuario.class);
-            q.setParameter("u",user);
-            q.setParameter("p",pass);
-
-            result = q.getSingleResult();
-        }
-        catch (Exception e){
-            log.severe( "Error al iniciar la sesion" );
-        }
         return result;
     }
 

@@ -3,12 +3,11 @@ module com.example.gestorjegoshibernate {
     requires javafx.fxml;
     requires lombok;
 
-    requires jakarta.persistence;
-    requires org.hibernate.orm.core;
     requires java.naming;
     requires java.sql;
     requires jasperreports;
-    requires java.desktop; //para fechas
+    requires java.desktop;
+    requires javax.persistence; //para fechas
 
     opens com.example.gestorDePedidosHibernate.domain.usuario;
     opens com.example.gestorDePedidosHibernate.domain.pedido;

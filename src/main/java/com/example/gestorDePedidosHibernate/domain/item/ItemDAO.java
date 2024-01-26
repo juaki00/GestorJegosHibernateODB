@@ -4,11 +4,10 @@ import com.example.gestorDePedidosHibernate.domain.DAO;
 import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
-import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -36,15 +35,33 @@ public class ItemDAO implements DAO<Item> {
      */
     @Override
     public void update(Item data) {
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        try {
+            em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
 
-        try(Session s = HibernateUtils.getSessionFactory().openSession()){
-            Transaction t = s.beginTransaction();
-            Item nuevoItem = s.get(Item.class, data.getId_item());
-            Producto nuevoProducto = s.get(Producto.class, data.getProducto().getId_producto());
+            // Recupera el objeto Item y Producto
+            Item nuevoItem = em.find(Item.class, data.getId_item());
+            Producto nuevoProducto = em.find(Producto.class, data.getProducto().getId_producto());
+
+            // Actualiza los campos del objeto Item
             nuevoItem.setCantidad(data.getCantidad());
             nuevoItem.setProducto(nuevoProducto);
-            t.commit();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
+
     }
 
     /**
@@ -53,11 +70,31 @@ public class ItemDAO implements DAO<Item> {
      */
     @Override
     public void delete(Item data) {
-        HibernateUtils.getSessionFactory().inTransaction(session -> {
-            Item i = session.get(Item.class, data.getId_item());
-            session.remove(i);
-        });
+        EntityManager em = null;
+        EntityTransaction tx = null;
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+
+            // Recupera el objeto Item y elimínalo
+            Item i = em.find(Item.class, data.getId_item());
+            em.remove(i);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
+
 
     /**
      * Devuelve el Item si existe un producto en un pedido
@@ -66,13 +103,27 @@ public class ItemDAO implements DAO<Item> {
      * @return Item del pedido con ese producto o null si no existe
      */
     public Item itemEnPedidoPorNombre(Pedido p, String nombreProducto){
+        EntityManager em = null;
         Item result = null;
-        try(Session s = HibernateUtils.getSessionFactory().openSession()) {
-            Query<Item> q = s.createQuery("from Item i where i.producto.nombre =: n and i.pedido.id_pedido=: idPedido",Item.class);
-            q.setParameter("n",nombreProducto);
-            q.setParameter("idPedido",p.getId_pedido());
-            result = q.getSingleResultOrNull();
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory().createEntityManager();
+            Query q = em.createQuery( "SELECT i FROM Item i WHERE i.producto.nombre = :nombre AND i.pedido.id_pedido = :idPedido", Item.class);
+            q.setParameter("nombre", nombreProducto);
+            q.setParameter("idPedido", p.getId_pedido());
+
+            List<Item> resultList = q.getResultList();
+            if (!resultList.isEmpty()) {
+                result = resultList.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
+
         return result;
     }
 }

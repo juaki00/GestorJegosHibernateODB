@@ -2,11 +2,11 @@ package com.example.gestorDePedidosHibernate.domain.pedido;
 
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 

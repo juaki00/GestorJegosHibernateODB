@@ -2,10 +2,10 @@ package com.example.gestorDePedidosHibernate.domain.item;
 
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
-import jakarta.persistence.*;
-import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * Corresponde a un Item de un pedido, contiene un producto, el numero de unidades del producto y el pedido al que pertenece

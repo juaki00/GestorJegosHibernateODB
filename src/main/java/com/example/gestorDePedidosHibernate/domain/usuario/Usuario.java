@@ -1,10 +1,9 @@
 package com.example.gestorDePedidosHibernate.domain.usuario;
 
-import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.pedido.Pedido;
-import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 

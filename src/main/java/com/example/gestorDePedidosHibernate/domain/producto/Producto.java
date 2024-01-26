@@ -1,11 +1,10 @@
 package com.example.gestorDePedidosHibernate.domain.producto;
 
 import com.example.gestorDePedidosHibernate.domain.item.Item;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class Producto implements Serializable {
     @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
     private List<Item> items;
 
-    public Producto(Long id_producto, String nombre, Double precio, Integer cantidad) {
+    public Producto( Long id_producto , String nombre , Double precio , Integer cantidad ) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.precio = precio;
@@ -35,13 +34,13 @@ public class Producto implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString( ) {
         return "Producto{" +
                 "id_producto=" + id_producto +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
                 ", cantidad=" + cantidad +
-                ", items size=" + items.size() +
+                ", items size=" + items.size( ) +
                 '}';
     }
 }

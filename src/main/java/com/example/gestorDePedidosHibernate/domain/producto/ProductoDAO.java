@@ -2,9 +2,9 @@ package com.example.gestorDePedidosHibernate.domain.producto;
 
 import com.example.gestorDePedidosHibernate.domain.DAO;
 import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -42,12 +42,22 @@ public class ProductoDAO implements DAO<Producto> {
      * @return Devuelve un objeto del producto con ese nombre o null si no existe
      */
     public Producto productoPorNombre(String nombreProducto){
+        EntityManager em = null;
         Producto result = null;
-        try(Session s = HibernateUtils.getSessionFactory().openSession()) {
-            Query<Producto> q = s.createQuery("from Producto p where p.nombre =: n",Producto.class);
-            q.setParameter("n",nombreProducto);
-            result = q.getSingleResultOrNull();
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            Query q = em.createQuery("SELECT p FROM Producto p WHERE p.nombre = :nombre", Producto.class);
+            q.setParameter("nombre", nombreProducto);
+            result = ( Producto ) q.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
+
         return result;
     }
 }

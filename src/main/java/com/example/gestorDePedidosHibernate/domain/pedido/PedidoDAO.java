@@ -8,10 +8,10 @@ import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.producto.Producto;
 import com.example.gestorDePedidosHibernate.domain.usuario.Usuario;
 import lombok.extern.java.Log;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,16 +39,27 @@ public class PedidoDAO implements DAO<Pedido> {
      */
     @Override
     public Pedido save( Pedido data ) {
-
+        EntityManager em = null;
         Pedido salida = null;
-        try ( org.hibernate.Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
-            Transaction t = s.beginTransaction( );
-            s.persist( data );
-            t.commit( );
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+
+            // Persiste el objeto Pedido
+            em.persist(data);
+
+            tx.commit();
             salida = data;
-        } catch ( Exception e ) {
-            log.severe( "Error al guardar. " + data.toString( ) );
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
+
         return salida;
     }
 
@@ -64,15 +75,31 @@ public class PedidoDAO implements DAO<Pedido> {
     @Override
     public void delete( Pedido data ) {
 
-        HibernateUtils.getSessionFactory().inTransaction(s -> {
-            Query<Item> q = s.createQuery( "from Item where pedido =: ped" , Item.class );
-            q.setParameter( "ped" , data );
-            List<Item> items = q.getResultList( );
-            Pedido i = s.get( Pedido.class , data.getId_pedido( ) );
-            items.forEach( s::remove );
+        EntityManager em = null;
 
-            s.remove( i );
-        });
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+
+            // Busca los items asociados al pedido y elimínalos
+            Query itemQuery = em.createQuery( "SELECT i FROM Item i WHERE i.pedido = :pedido", Item.class);
+            itemQuery.setParameter("pedido", data);
+            List<Item> items = itemQuery.getResultList();
+            items.forEach(em::remove);
+
+            // Elimina el pedido
+            Pedido pedido = em.find(Pedido.class, data.getId_pedido());
+            em.remove(pedido);
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 
     /**
@@ -82,22 +109,38 @@ public class PedidoDAO implements DAO<Pedido> {
      */
     public List<Pedido> pedidosDeUnUsuario( Usuario usuario ) {
 
-        List<Pedido> salida = new ArrayList<>( );
-        try ( Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
-            Query<Usuario> q = s.createQuery( "from Usuario where id_usuario =: id" , Usuario.class );
-            q.setParameter( "id" , usuario.getId_usuario( ) );
-            salida = q.getSingleResult( ).getPedidos( );
+        EntityManager em = null;
+        List<Pedido> salida = new ArrayList<>();
 
-            for (Pedido pedido : salida) {
-                Double total = 0.0;
-                for (Item item : pedido.getItems( )) {
-                    total = total + item.getCantidad( ) * item.getProducto( ).getPrecio( );
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            Query q = em.createQuery( "SELECT u FROM Usuario u WHERE u.id_usuario = :id", Usuario.class);
+            q.setParameter("id", usuario.getId_usuario());
+            Usuario usuarioEncontrado = ( Usuario ) q.getSingleResult();
+
+            if (usuarioEncontrado != null) {
+                salida = usuarioEncontrado.getPedidos();
+
+                for (Pedido pedido : salida) {
+                    Double total = 0.0;
+
+                    // Calcula el total del pedido
+                    for (Item item : pedido.getItems()) {
+                        total += item.getCantidad() * item.getProducto().getPrecio();
+                    }
+
+                    DecimalFormat formato = new DecimalFormat("#0.00");
+                    pedido.setTotal(formato.format(total));
                 }
-                DecimalFormat formato = new DecimalFormat( "#0.00" );
-                pedido.setTotal( formato.format( total ) );
-
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
             }
         }
+
         return salida;
     }
 
@@ -107,12 +150,26 @@ public class PedidoDAO implements DAO<Pedido> {
      * @return Lista  de Items correspondiente a un pedido
      */
     public List<Item> detallesDeUnPedido( Pedido pedidoPulsado ) {
-        List<Item> result;
-        try ( Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
-            Query<Pedido> q = s.createQuery( "from Pedido where id_pedido =: id" , Pedido.class );
-            q.setParameter( "id" , pedidoPulsado.getId_pedido( ) );
-            result = new ArrayList<>( q.getSingleResult( ).getItems( ) );
+        EntityManager em = null;
+        List<Item> result = new ArrayList<>();
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            Query q = em.createQuery( "SELECT p FROM Pedido p WHERE p.id_pedido = :id", Pedido.class);
+            q.setParameter("id", pedidoPulsado.getId_pedido());
+            Pedido pedidoEncontrado = ( Pedido ) q.getSingleResult();
+
+            if (pedidoEncontrado != null) {
+                result = new ArrayList<>(pedidoEncontrado.getItems());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
+
         return result;
     }
 
@@ -120,11 +177,21 @@ public class PedidoDAO implements DAO<Pedido> {
      * Todos los productos de la base de datos
      * @return Lista de todos los productos que estan en la base de datos
      */
+
     public List<String> todosLosProductos( ) {
-        List<String> resultado = new ArrayList<String>( );
-        try ( Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
-            Query<String> q = s.createQuery( "select distinct p.nombre from Producto p" , String.class );
-            resultado = q.getResultList( );
+        EntityManager em = null;
+        List<String> resultado = new ArrayList<>();
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            Query q = em.createQuery("SELECT DISTINCT p.nombre FROM Producto p", String.class);
+            resultado = q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
 
         return resultado;
@@ -137,17 +204,29 @@ public class PedidoDAO implements DAO<Pedido> {
      * @param prod Producto correspondiente al nuevo item
      */
     public void insertarItemAPedido( Pedido ped , Integer cant , Producto prod ) {
-        try ( org.hibernate.Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
-            Transaction t = s.beginTransaction( );
-            //Crear u nuevo item
-            Item item = new Item( );
-            item.setCantidad( cant );
-            item.setPedido( ped );
-            item.setProducto( prod );
-            s.persist( item );
-            t.commit( );
-        } catch ( Exception e ) {
-            log.severe( "Error al insertar un nuevo item" );
+        EntityManager em = null;
+
+        try {
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+
+            // Crear un nuevo item
+            Item item = new Item();
+            item.setCantidad(cant);
+            item.setPedido(ped);
+            item.setProducto(prod);
+
+            // Persistir el nuevo item
+            em.persist(item);
+
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -158,14 +237,25 @@ public class PedidoDAO implements DAO<Pedido> {
      * @return Producto si esta en el pedido o null si no está
      */
     public Producto buscaProductoEnPedido( String nombreProducto , Pedido pedido ) {
+        EntityManager em = null;
         Producto producto = null;
-        try ( org.hibernate.Session s = HibernateUtils.getSessionFactory( ).openSession( ) ) {
-            Query<Producto> q = s.createQuery(
-                    "select i.producto from Item i where i.producto.nombre =: nombre and i.pedido.id_pedido =: idPedido" , Producto.class );
-            q.setParameter( "nombre" , nombreProducto );
-            q.setParameter( "idPedido" , pedido.getId_pedido( ) );
-            producto = q.getSingleResultOrNull( );
+
+        try {
+
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            Query q = em.createQuery(
+                    "SELECT i.producto FROM Item i WHERE i.producto.nombre = :nombre AND i.pedido.id_pedido = :idPedido", Producto.class);
+            q.setParameter("nombre", nombreProducto);
+            q.setParameter("idPedido", pedido.getId_pedido());
+            producto = ( Producto ) q.getSingleResult();
+        } catch (Exception e) {
+
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
+
         return producto;
     }
 
@@ -183,9 +273,23 @@ public class PedidoDAO implements DAO<Pedido> {
      * Actualiza la fecha del pedido pulsado
      */
     public void actualizarFecha(Pedido ped){
-        HibernateUtils.getSessionFactory().inTransaction(s -> {
-            Pedido p = s.get( Pedido.class , ped.getId_pedido() );
-            p.setFecha( LocalDate.now().toString() );
-        });
+        EntityManager em = null;
+
+        try {
+
+            em = HibernateUtils.getEntityManagerFactory( ).createEntityManager( );
+            em.getTransaction().begin();
+
+            Pedido p = em.find(Pedido.class, ped.getId_pedido());
+            p.setFecha(LocalDate.now().toString());
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 }

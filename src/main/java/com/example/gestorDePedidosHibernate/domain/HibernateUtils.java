@@ -1,47 +1,44 @@
 package com.example.gestorDePedidosHibernate.domain;
 
 import lombok.extern.java.Log;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * Utilidades de hibernate
  */
 @Log
 public class HibernateUtils {
-    private static SessionFactory sf;
+    private static final EntityManagerFactory emf;
 
-    static {
-        buildSessionFactory( );
+    static{
+        emf = Persistence.createEntityManagerFactory("data.odb");
     }
 
-    public static void buildSessionFactory( ) {
-        try {
-            Configuration cfg = new Configuration();
-            cfg.configure();
-            sf = cfg.buildSessionFactory();
-            log.info("SessionFactory creada con exito!");
-        } catch(Exception e){
-            log.severe("Error al crear SessionFactory");
-        }
-    }
+//    public static void buildSessionFactory( ) {
+//        try {
+//            Configuration cfg = new Configuration();
+//            cfg.configure();
+//            sf = cfg.buildSessionFactory();
+//            log.info("SessionFactory creada con exito!");
+//        } catch(Exception e){
+//            log.severe("Error al crear SessionFactory");
+//        }
+//    }
 
     /**
      * Sesion Factory
      * @return devuelve una instancia de una sesion factory de hibernate
      */
-    public static SessionFactory getSessionFactory(){
+    public static EntityManagerFactory getEntityManagerFactory(){
 
-        return sf;
+        return emf;
     }
 
     public static Connection getConnection(){
-        Transaction transaction = sf.getCurrentSession().beginTransaction();
 
-        return sf.getCurrentSession().unwrap( Connection.class );
+        return emf.unwrap( Connection.class );
     }
 }

@@ -1,7 +1,6 @@
 package com.example.gestorDePedidosHibernate.controllers;
 
 import com.example.gestorDePedidosHibernate.App;
-import com.example.gestorDePedidosHibernate.domain.HibernateUtils;
 import com.example.gestorDePedidosHibernate.domain.Sesion;
 import com.example.gestorDePedidosHibernate.domain.item.Item;
 import com.example.gestorDePedidosHibernate.domain.item.ItemDAO;
@@ -16,8 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.net.URL;
 import java.time.LocalDate;
