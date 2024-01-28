@@ -38,7 +38,7 @@ public class ItemDAO implements DAO<Item> {
         EntityManager em = null;
         EntityTransaction tx = null;
         try {
-            em = ODB.getEntityManagerFactory().createEntityManager();
+            em = ODB.getEntityManagerFactory().createEntityManager(  );
             tx = em.getTransaction();
             tx.begin();
 
@@ -74,7 +74,7 @@ public class ItemDAO implements DAO<Item> {
         EntityTransaction tx = null;
 
         try {
-            em = ODB.getEntityManagerFactory().createEntityManager();
+            em = ODB.getEntityManagerFactory().createEntityManager(  );
             tx = em.getTransaction();
             tx.begin();
 
@@ -107,7 +107,7 @@ public class ItemDAO implements DAO<Item> {
         Item result = null;
 
         try {
-            em = ODB.getEntityManagerFactory().createEntityManager();
+            em = ODB.getEntityManagerFactory().createEntityManager(  );
             Query q = em.createQuery( "SELECT i FROM Item i WHERE i.producto.nombre = :nombre AND i.pedido.id_pedido = :idPedido", Item.class);
             q.setParameter("nombre", nombreProducto);
             q.setParameter("idPedido", p.getId_pedido());

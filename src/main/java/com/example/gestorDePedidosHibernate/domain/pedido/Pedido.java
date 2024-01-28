@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Representa un Pedido
@@ -43,5 +44,17 @@ public class Pedido implements Serializable {
                 ", total='" + total + '\'' +
                 ", items=" + items +
                 '}';
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if (this == o) return true;
+        if (!(o instanceof Pedido pedido)) return false;
+        return Objects.equals( id_pedido , pedido.id_pedido ) && Objects.equals( fecha , pedido.fecha ) && Objects.equals( total , pedido.total ) && Objects.equals( usuario , pedido.usuario );
+    }
+
+    @Override
+    public int hashCode( ) {
+        return Objects.hash( id_pedido );
     }
 }

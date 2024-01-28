@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * clase producto que representa un producto dentro de un item
@@ -42,5 +43,17 @@ public class Producto implements Serializable {
                 ", cantidad=" + cantidad +
                 ", items size=" + items.size( ) +
                 '}';
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if (this == o) return true;
+        if (!(o instanceof Producto producto)) return false;
+        return Objects.equals( id_producto , producto.id_producto ) && Objects.equals( nombre , producto.nombre ) && Objects.equals( precio , producto.precio ) && Objects.equals( cantidad , producto.cantidad );
+    }
+
+    @Override
+    public int hashCode( ) {
+        return Objects.hash( id_producto , nombre , precio , cantidad );
     }
 }

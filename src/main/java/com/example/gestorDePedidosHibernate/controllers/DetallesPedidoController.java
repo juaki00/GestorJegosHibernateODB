@@ -25,6 +25,7 @@ import net.sf.jasperreports.swing.JRViewer;
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.*;
 
 /**
@@ -92,87 +93,6 @@ public class DetallesPedidoController implements Initializable
     public void logout() {
         Sesion.logout();
         App.loadFXML("login-view.fxml", "Iniciar Sesión");
-    }
-
-
-    @FXML
-    public void exportarPdf( ){
-        EntityManager em = null;
-
-        try {
-            em = ODB.getEntityManagerFactory( ).createEntityManager( );
-            em.getTransaction().begin();
-
-            HashMap<String, Object> hm = new HashMap<>();
-            hm.put("idPedido", Sesion.getPedidoPulsado().getId_pedido());
-
-            // Ruta al archivo .jasper en tu proyecto
-            String rutaJasper = "pedidos.jasper";
-
-            JasperPrint jasperPrint;
-            try {
-                // Fill del informe utilizando la conexión de JPA
-                jasperPrint = JasperFillManager.fillReport(rutaJasper, hm, em.unwrap(java.sql.Connection.class));
-                JRPdfExporter exp = new JRPdfExporter();
-                exp.setExporterInput(new SimpleExporterInput(jasperPrint));
-                exp.setExporterOutput(new SimpleOutputStreamExporterOutput("pedido" + Sesion.getPedidoPulsado().getId_pedido() + ".pdf"));
-                exp.setConfiguration(new SimplePdfExporterConfiguration());
-                exp.exportReport();
-                log.setText("Pdf exportado correctamente");
-                log.setStyle("-fx-text-fill: #48ff00");
-            } catch (JRException e) {
-                log.setText("Error al exportar el pdf");
-                log.setStyle("-fx-text-fill: red");
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    @FXML
-    public void reporteNuevaVentana() {
-        EntityManager em = null;
-
-        try {
-            em = ODB.getEntityManagerFactory( ).createEntityManager( );
-                    em.getTransaction().begin();
-
-            HashMap<String, Object> hm = new HashMap<>();
-            hm.put("idPedido", Sesion.getPedidoPulsado().getId_pedido());
-
-            // Ruta al archivo .jasper en tu proyecto
-            String rutaJasper = "pedidos.jasper";
-
-            JasperPrint jasperPrint;
-            try {
-                // Fill del informe utilizando la conexión de JPA
-                jasperPrint = JasperFillManager.fillReport(rutaJasper, hm, em.unwrap(java.sql.Connection.class));
-                JRViewer viewer = new JRViewer(jasperPrint);
-
-                // Crear y mostrar la ventana del informe
-                JFrame frame = new JFrame("Listado de Juegos");
-                frame.getContentPane().add(viewer);
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                frame.setVisible(true);
-            } catch (JRException e) {
-                log.setText("Error al crear el reporte");
-                log.setStyle("-fx-text-fill: red");
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
     }
 
 }

@@ -46,7 +46,7 @@ public class ProductoDAO implements DAO<Producto> {
         Producto result = null;
 
         try {
-            em = ODB.getEntityManagerFactory( ).createEntityManager( );
+            em = ODB.getEntityManagerFactory().createEntityManager(  );
             Query q = em.createQuery("SELECT p FROM Producto p WHERE p.nombre = :nombre", Producto.class);
             q.setParameter("nombre", nombreProducto);
             result = ( Producto ) q.getSingleResult();

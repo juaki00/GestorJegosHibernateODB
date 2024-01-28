@@ -62,16 +62,16 @@ public class App extends Application {
      * @param args No se usan argumentos
      */
     public static void main(String[] args) {
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory( "data.odb");
-//        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory( "data.odb");
+        EntityManager em = emf.createEntityManager();
 //
 //        try {
 //            em.getTransaction().begin();
 //            Usuario u = new Usuario();
-//            u.setNombreusuario( "joaquin" );
-//            u.setId_usuario( 2L );
+//            u.setNombreusuario( "laura" );
+//            u.setId_usuario( 3L );
 //            u.setPass("123");
-//            u.setEmail( "email@email.com" );
+//            u.setEmail( "laura@email.com" );
 //            u.setPedidos( new ArrayList<>(  ) );
 //            em.persist( u );
 //            em.getTransaction().commit();
